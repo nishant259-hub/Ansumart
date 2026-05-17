@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>My Cart – AnsuMart</title>
+  <link rel="stylesheet" href="css/style.css"/>
+  <link rel="stylesheet" href="css/cart.css"/>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <header class="navbar" id="navbar">
+    <div class="nav-inner">
+      <a href="/" class="logo">
+        <span class="logo-icon"><i class="fa-solid fa-basket-shopping"></i></span>
+        <span class="logo-text">Ansu<span>Mart</span></span>
+      </a>
+      <div class="search-wrap">
+        <i class="fa-solid fa-magnifying-glass search-icon"></i>
+        <input type="text" placeholder="Search for products..." id="searchInput" autocomplete="off"/>
+        <div class="search-suggestions" id="searchSuggestions"></div>
+      </div>
+      <nav class="nav-actions">
+        <a href="/cart" class="nav-btn active-nav">
+          <i class="fa-solid fa-cart-shopping"></i>
+          <span>Cart</span>
+          <span class="badge" id="cartBadge">0</span>
+        </a>
+        <a href="/wishlist" class="nav-btn">
+          <i class="fa-solid fa-heart"></i>
+          <span>Wishlist</span>
+        </a>
+        <% if(user){ %>
+
+       <a href="/profile" class="nav-btn profile-btn">
+         <i class="fa-solid fa-circle-user"></i>
+         <span><%= user.firstName %></span>
+       </a>
+
+    <% } else { %>
+
+       <a href="/login" class="nav-btn profile-btn">
+        <i class="fa-solid fa-circle-user"></i>
+        <span>Login</span>
+      </a>
+
+   <% } %>
+      </nav>
+      <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
+    </div>
+    <div class="mobile-menu" id="mobileMenu">
+      <a href="/cart"><i class="fa-solid fa-cart-shopping"></i> Cart</a>
+      <a href="/wishlist"><i class="fa-solid fa-heart"></i> Wishlist</a>
+      <% if(user){ %>
+
+        <a href="/profile">
+          <i class="fa-solid fa-circle-user"></i>
+          <%= user.firstName %>
+        </a>
+
+       <a href="/logout">
+          <i class="fa-solid fa-right-from-bracket"></i>
+          Logout
+        </a>
+
+      <% } else { %>
+
+      <a href="/login">
+       <i class="fa-solid fa-circle-user"></i>
+       Login
+      </a>
+
+    <% } %>
+    </div>
+  </header>
+
+  <!-- BREADCRUMB -->
+  <div class="breadcrumb-bar">
+    <div class="breadcrumb-inner">
+      <a href="/"><i class="fa-solid fa-house"></i> Home</a>
+      <i class="fa-solid fa-chevron-right sep"></i>
+      <span>My Cart</span>
+    </div>
+  </div>
+
+  <!-- TOAST -->
+  <div class="toast" id="toast">
+    <i class="fa-solid fa-circle-check toast-icon" id="toastIcon"></i>
+    <span id="toastMsg">Done!</span>
+  </div>
+
+  <!-- MAIN -->
+  <main class="cart-page">
+    <div class="cart-title-row">
+      <div>
+        <h1 class="cart-heading">My <span class="green-text">Cart</span></h1>
+        <p class="cart-subtitle" id="cartCountLabel">Loading...</p>
+      </div>
+      <button class="clear-cart-btn" id="clearCartBtn">
+        <i class="fa-solid fa-trash"></i> Clear Cart
+      </button>
+    </div>
+
+    <div class="cart-layout">
+
+      <!-- LEFT: ITEMS -->
+      <section class="cart-items-wrap">
+
+        <!-- Delivery progress -->
+        <div class="delivery-progress-card" id="deliveryCard">
+          <div class="dp-top">
+            <i class="fa-solid fa-truck-fast dp-icon"></i>
+            <div class="dp-text">
+              <span id="dpMessage">Add <strong id="dpAmount">₹500</strong> more for FREE delivery!</span>
+            </div>
+            <span class="dp-badge" id="dpBadge" style="display:none">🎉 Free!</span>
+          </div>
+          <div class="dp-bar-wrap">
+            <div class="dp-bar" id="dpBar" style="width:0%"></div>
+          </div>
+        </div>
+
+        <!-- Items list injected by JS -->
+        <div id="cartItemsList"></div>
+
+        <!-- Empty state -->
+        <div class="empty-cart" id="emptyCart" style="display:none">
+          <div class="empty-icon">🛒</div>
+          <h2>Your cart is empty!</h2>
+          <p>Looks like you haven't added anything yet.</p>
+          <a href="/" class="btn-primary" style="margin-top:1.5rem;display:inline-flex;gap:.5rem;align-items:center">
+            <i class="fa-solid fa-arrow-left"></i> Start Shopping
+          </a>
+        </div>
+
+      </section>
+
+      <!-- RIGHT: SUMMARY -->
+      <aside class="order-summary" id="orderSummary">
+        <div class="summary-card">
+          <h2 class="summary-title">Order Summary</h2>
+          <div class="summary-rows">
+            <div class="summary-row">
+              <span>Subtotal (<span id="sumItemCount">0</span> items)</span>
+              <span id="sumSubtotal">₹0</span>
+            </div>
+            <div class="summary-row">
+              <span>Delivery Fee</span>
+              <span id="sumDelivery">₹40</span>
+            </div>
+            <div class="summary-row" id="discountRow" style="display:none">
+              <span><i class="fa-solid fa-tag"></i> Coupon Discount</span>
+              <span id="sumDiscount" class="red-text">-₹0</span>
+            </div>
+            <div class="summary-row">
+              <span>Taxes (5%)</span>
+              <span id="sumTax">₹0</span>
+            </div>
+          </div>
+
+          <!-- Coupon -->
+          <div class="coupon-wrap">
+            <input type="text" id="couponInput" placeholder="Enter coupon code" autocomplete="off"/>
+            <button class="coupon-btn" id="couponBtn">Apply</button>
+          </div>
+          <p class="coupon-msg" id="couponMsg"></p>
+          <div class="valid-coupons">
+            Try: <span class="coupon-chip" data-code="FRESH10">FRESH10</span>
+            <span class="coupon-chip" data-code="HALAL20">HALAL20</span>
+          </div>
+
+          <div class="summary-divider"></div>
+
+          <div class="summary-total">
+            <span>Total Amount</span>
+            <span id="sumTotal" class="total-price">₹0</span>
+          </div>
+
+          <div class="savings-note" id="savingsNote" style="display:none">
+            🎉 You're saving <strong id="savingsAmt"></strong> on this order!
+          </div>
+
+          <button class="btn-checkout" id="checkoutBtn">
+            <i class="fa-solid fa-lock"></i>
+            Proceed to Checkout
+            <i class="fa-solid fa-arrow-right"></i>
+          </button>
+
+          <div class="trust-badges">
+            <div class="trust-item"><i class="fa-solid fa-shield-halved"></i> Secure Payment</div>
+            <div class="trust-item"><i class="fa-solid fa-rotate-left"></i> Easy Returns</div>
+            <div class="trust-item"><i class="fa-solid fa-truck-fast"></i> Fast Delivery</div>
+          </div>
+        </div>
+
+        <!-- You may also like -->
+        <div class="also-like-card">
+          <h3>You May Also Like</h3>
+          <div class="also-like-list" id="alsoLikeList"></div>
+        </div>
+      </aside>
+
+    </div>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="/" class="logo">
+          <span class="logo-icon"><i class="fa-solid fa-basket-shopping"></i></span>
+          <span class="logo-text white">Ansu<span>Mart</span></span>
+        </a>
+        <p>Your trusted Halal grocery delivery partner.</p>
+        <div class="socials">
+          <a href="#"><i class="fa-brands fa-instagram"></i></a>
+          <a href="#"><i class="fa-brands fa-facebook"></i></a>
+          <a href="#"><i class="fa-brands fa-whatsapp"></i></a>
+        </div>
+      </div>
+      <div class="footer-col"><h4>Quick Links</h4><a href="/">Home</a><a href="/cart">Cart</a><a href="/wishlist">Wishlist</a><a href="/login">Login</a></div>
+      <div class="footer-col"><h4>Help</h4><a href="#">FAQ</a><a href="#">Shipping Policy</a><a href="#">Returns</a><a href="#">Contact Us</a></div>
+      <div class="footer-col"><h4>Contact</h4><p><i class="fa-solid fa-phone"></i> +91 98765 43210</p><p><i class="fa-solid fa-envelope"></i> hello@ansumart.com</p></div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2026 AnsuMart. All rights reserved. Made with <i class="fa-solid fa-heart" style="color:#f5a623"></i> in India.</p>
+    </div>
+  </footer>
+
+  <script>
+    window.__CART_PRODUCTS__ = <%- JSON.stringify(typeof products !== 'undefined' ? products : []) %>;
+    window.__USER_ID__ = "<%= typeof user !== 'undefined' && user ? user._id : 'guest' %>";
+  </script>
+  <script src="/js/main.js"></script>
+  <script src="/js/cart.js"></script>
+</body>
+</html>

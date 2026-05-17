@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Register – AnsuMart</title>
+  <link rel="stylesheet" href="/css/register.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+</head>
+<body>
+
+  <!-- LEFT PANEL -->
+  <div class="left-panel">
+    <div class="brand">
+      <span class="brand-icon">🛒</span>
+      <span class="brand-name">AnsuMart</span>
+    </div>
+
+    <div class="hero-text">
+      <h1>Fresh Grocery,<br/><span class="highlight">Delivered Fast.</span></h1>
+      <p>Create your AnsuMart account and explore hundreds of Halal-certified products delivered right to your door.</p>
+    </div>
+
+    <ul class="features">
+      <li><span class="feat-icon">🚚</span><strong>Same-day delivery</strong></li>
+      <li><span class="feat-icon">🌿</span><strong>100% Halal certified</strong></li>
+      <li><span class="feat-icon">🥬</span><strong>Farm-fresh produce</strong></li>
+      <li><span class="feat-icon">🏷️</strong><strong>Best prices guaranteed</strong></li>
+    </ul>
+
+    <div class="rating-card">
+      <div class="avatars">
+        <img src="https://i.pravatar.cc/36?img=1" alt="user"/>
+        <img src="https://i.pravatar.cc/36?img=2" alt="user"/>
+        <img src="https://i.pravatar.cc/36?img=3" alt="user"/>
+      </div>
+      <div class="rating-text">
+        <div class="stars">⭐⭐⭐⭐⭐ <strong>4.8</strong></div>
+        <div class="customers">+500 happy customers</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT PANEL -->
+  <div class="right-panel">
+    <div class="form-card">
+      <div class="form-header">
+        <h2>Create Account <span>👋</span></h2>
+        <p>Join AnsuMart and start shopping fresh</p>
+      </div>
+
+      <% if (typeof error !== 'undefined' && error) { %>
+        <div class="alert alert-error"><i class="fa fa-circle-exclamation"></i> <%= error %></div>
+      <% } %>
+      <% if (typeof success !== 'undefined' && success) { %>
+        <div class="alert alert-success"><i class="fa fa-circle-check"></i> <%= success %></div>
+      <% } %>
+
+      <form action="/register" method="POST" id="registerForm" novalidate>
+
+        <div class="form-row">
+          <div class="input-group">
+            <label for="firstName">First Name</label>
+            <div class="input-wrap">
+              <i class="fa fa-user"></i>
+              <input type="text" id="firstName" name="firstName" placeholder="Nishant" required autocomplete="given-name"/>
+            </div>
+            <span class="field-error" id="firstNameError"></span>
+          </div>
+          <div class="input-group">
+            <label for="lastName">Last Name</label>
+            <div class="input-wrap">
+              <i class="fa fa-user"></i>
+              <input type="text" id="lastName" name="lastName" placeholder="Roy" required autocomplete="family-name"/>
+            </div>
+            <span class="field-error" id="lastNameError"></span>
+          </div>
+        </div>
+
+        <div class="input-group">
+          <label for="email">Email Address</label>
+          <div class="input-wrap">
+            <i class="fa fa-envelope"></i>
+            <input type="email" id="email" name="email" placeholder="nishant@help.com" required autocomplete="email"/>
+          </div>
+          <span class="field-error" id="emailError"></span>
+        </div>
+
+        <div class="input-group">
+          <label for="phone">Phone Number</label>
+          <div class="input-wrap">
+            <i class="fa fa-phone"></i>
+            <input type="tel" id="phone" name="phone" placeholder="+91 98765 43210" autocomplete="tel"/>
+          </div>
+          <span class="field-error" id="phoneError"></span>
+        </div>
+
+        <div class="input-group">
+          <label for="password">Password</label>
+          <div class="input-wrap">
+            <i class="fa fa-lock"></i>
+            <input type="password" id="password" name="password" placeholder="Create a strong password" required autocomplete="new-password"/>
+            <button type="button" class="toggle-pw" onclick="togglePassword('password', this)" tabindex="-1">
+              <i class="fa fa-eye"></i>
+            </button>
+          </div>
+          <div class="strength-bar"><div class="strength-fill" id="strengthFill"></div></div>
+          <span class="strength-label" id="strengthLabel"></span>
+          <span class="field-error" id="passwordError"></span>
+        </div>
+
+        <div class="input-group">
+          <label for="confirmPassword">Confirm Password</label>
+          <div class="input-wrap">
+            <i class="fa fa-lock"></i>
+            <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Repeat your password" required autocomplete="new-password"/>
+            <button type="button" class="toggle-pw" onclick="togglePassword('confirmPassword', this)" tabindex="-1">
+              <i class="fa fa-eye"></i>
+            </button>
+          </div>
+          <span class="field-error" id="confirmPasswordError"></span>
+        </div>
+
+        <!-- LOCATION SECTION -->
+        <div class="location-section">
+          <label class="section-label"><i class="fa fa-location-dot"></i> Delivery Location</label>
+
+          <!-- GPS Fetch Button -->
+          <button type="button" class="btn-locate" id="locateBtn" onclick="fetchLocation()">
+            <i class="fa fa-crosshairs"></i>
+            <span id="locateBtnText">Use My Current Location</span>
+          </button>
+
+          <!-- Location Status -->
+          <div class="location-status" id="locationStatus"></div>
+
+          <!-- Map Preview (shown after GPS fetch) -->
+          <div class="map-preview" id="mapPreview" style="display:none;">
+            <iframe id="mapIframe" src="" width="100%" height="180" style="border:0; border-radius:10px;" allowfullscreen="" loading="lazy"></iframe>
+          </div>
+
+          <div class="or-manual"><span>or enter manually</span></div>
+
+          <!-- Manual Address Fields -->
+          <div class="input-group">
+            <div class="input-wrap">
+              <i class="fa fa-house"></i>
+              <input type="text" id="addressLine" name="addressLine" placeholder="House No., Street, Area" autocomplete="address-line1"/>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="input-group">
+              <div class="input-wrap">
+                <i class="fa fa-city"></i>
+                <input type="text" id="city" name="city" placeholder="City" autocomplete="address-level2"/>
+              </div>
+            </div>
+            <div class="input-group">
+              <div class="input-wrap">
+                <i class="fa fa-map"></i>
+                <input type="text" id="state" name="state" placeholder="State" autocomplete="address-level1"/>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="input-group">
+              <div class="input-wrap">
+                <i class="fa fa-mailbox"></i>
+                <input type="text" id="pincode" name="pincode" placeholder="Pincode" autocomplete="postal-code"/>
+              </div>
+            </div>
+            <div class="input-group">
+              <div class="input-wrap">
+                <i class="fa fa-tag"></i>
+                <select id="addressType" name="addressType">
+                  <option value="home">🏠 Home</option>
+                  <option value="work">🏢 Work</option>
+                  <option value="other">📍 Other</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <!-- Hidden coords -->
+          <input type="hidden" id="latitude"  name="latitude"/>
+          <input type="hidden" id="longitude" name="longitude"/>
+          <span class="field-error" id="locationError"></span>
+        </div>
+
+        <div class="checkbox-row">
+          <label class="checkbox-label">
+            <input type="checkbox" id="terms" name="terms" required/>
+            <span class="checkmark"></span>
+            I agree to the <a href="/terms">Terms &amp; Conditions</a> and <a href="/privacy">Privacy Policy</a>
+          </label>
+          <span class="field-error" id="termsError"></span>
+        </div>
+
+        <button type="submit" class="btn-submit" id="submitBtn">
+          Create Account <i class="fa fa-arrow-right"></i>
+        </button>
+
+      </form>
+
+      <div class="divider"><span>or continue with</span></div>
+
+      <div class="social-btns">
+        <a href="/auth/google" class="social-btn google" style="flex:1; justify-content: center;">
+          <img src="https://www.svgrepo.com/show/475656/google-color.svg" alt="Google"/> Continue with Google
+        </a>
+      </div>
+
+      <p class="login-link">Already have an account? <a href="/login">Login here</a></p>
+    </div>
+  </div>
+
+  <script src="/js/register.js"></script>
+</body>
+</html>

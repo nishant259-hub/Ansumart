@@ -1,0 +1,757 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Shop – AnsuMart</title>
+  <link rel="stylesheet" href="/css/store.css" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@400;500;600;700&display=swap"
+    rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+</head>
+
+<body>
+
+  <!-- ═══════ NAVBAR ═══════ -->
+  <header class="navbar" id="navbar">
+    <div class="nav-wrap">
+      <a href="/" class="logo">
+        <i class="fa-solid fa-basket-shopping logo-icon"></i>
+        <span class="logo-text">Ansu<em>Mart</em></span>
+      </a>
+
+      <div class="nav-search">
+        <i class="fa-solid fa-magnifying-glass"></i>
+        <input type="text" id="searchInput" placeholder="Search products, brands…" autocomplete="off" />
+        <ul class="search-drop" id="searchDrop"></ul>
+      </div>
+
+      <nav class="nav-links">
+        <a href="/cart" class="nav-link" id="navCart">
+          <i class="fa-solid fa-cart-shopping"></i> Cart
+          <span class="cart-count" id="cartCount" style="display:none">0</span>
+        </a>
+        <a href="/profile#wishlist" class="nav-link">
+          <i class="fa-solid fa-heart"></i> Wishlist
+        </a>
+        <a href="/profile" class="nav-link nav-profile">
+          <i class="fa-solid fa-user"></i> Profile
+        </a>
+      </nav>
+
+      <button class="burger" id="burger">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+
+    <div class="nav-mobile" id="navMobile">
+      <a href="/cart"><i class="fa-solid fa-cart-shopping"></i> Cart</a>
+      <a href="/profile#wishlist"><i class="fa-solid fa-heart"></i> Wishlist</a>
+      <a href="/profile"><i class="fa-solid fa-user"></i> Profile</a>
+    </div>
+  </header>
+
+  <!-- ═══════ HERO SLIDER ═══════ -->
+  <section class="slider-wrap" id="sliderWrap">
+    <div class="slides" id="slides">
+
+      <!-- SLIDE 1 : Dairy & Milk -->
+      <div class="slide" id="slide0">
+        <img class="slide-photo"
+          src="https://images.unsplash.com/photo-1563636619-e9143da7973b?w=1400&q=80&auto=format&fit=crop&crop=right"
+          alt="Dairy products" onerror="this.style.display='none'" />
+        <div class="slide-fade"></div>
+        <div class="slide-text">
+          <span class="slide-label">🚚 Trusted Brands · Halal Certified</span>
+          <h2>Fresh Milk &amp; <br><span class="txt-green">Dairy Products</span></h2>
+          <p>100% Pure &middot; Hygienically Packed &middot; Rich in Nutrition</p>
+          <div class="slide-price">Starting at <strong>₹32</strong></div>
+          <a href="#sec-dairy" class="slide-btn">Shop Dairy <i class="fa-solid fa-arrow-right"></i></a>
+          <div class="slide-chips">
+            <span><i class="fa-solid fa-droplet"></i> 100% Pure</span>
+            <span><i class="fa-solid fa-shield-halved"></i> Hygienically Packed</span>
+            <span><i class="fa-solid fa-heart-pulse"></i> Rich in Nutrition</span>
+            <span><i class="fa-solid fa-users"></i> Goodness for Family</span>
+          </div>
+        </div>
+        <div class="slide-brands">
+          <span class="sbrand" style="--bc:#1565c0">Amul Taaza</span>
+          <span class="sbrand" style="--bc:#b71c1c">Aashirvaad</span>
+          <span class="sbrand" style="--bc:#1b5e20">Sudha</span>
+        </div>
+      </div>
+
+      <!-- SLIDE 2 : Snacks -->
+      <div class="slide" id="slide1">
+        <img class="slide-photo"
+          src="https://images.unsplash.com/photo-1621939514649-280e2ee25f60?w=1400&q=80&auto=format&fit=crop&crop=center"
+          alt="Snacks" onerror="this.style.display='none'" />
+        <div class="slide-fade"
+          style="background:linear-gradient(to right,rgba(255,248,230,.96) 40%,rgba(255,248,230,.5) 70%,transparent 100%)">
+        </div>
+        <div class="slide-text">
+          <span class="slide-label">🔥 Hot Deals · Up to 30% Off</span>
+          <h2>Instant Food &amp; <br><span class="txt-amber">Snacks Fiesta</span></h2>
+          <p>Maggi &middot; Yippee &middot; Kurkure &middot; All favourites</p>
+          <div class="slide-price txt-amber">Up to <strong>30% Off</strong></div>
+          <a href="#sec-snacks" class="slide-btn amber-btn">Shop Snacks <i class="fa-solid fa-arrow-right"></i></a>
+          <div class="slide-chips">
+            <span><i class="fa-solid fa-bolt"></i> Instant Ready</span>
+            <span><i class="fa-solid fa-star"></i> Top Brands</span>
+            <span><i class="fa-solid fa-tags"></i> Best Prices</span>
+            <span><i class="fa-solid fa-truck-fast"></i> Fast Delivery</span>
+          </div>
+        </div>
+        <div class="slide-brands">
+          <span class="sbrand" style="--bc:#e53935">Maggi</span>
+          <span class="sbrand" style="--bc:#f57c00">Kurkure</span>
+          <span class="sbrand" style="--bc:#1565c0">Yippee</span>
+        </div>
+      </div>
+
+      <!-- SLIDE 3 : Drinks -->
+      <div class="slide" id="slide2">
+        <img class="slide-photo"
+          src="https://images.unsplash.com/photo-1625772452859-1c03d884dcd7?w=1400&q=80&auto=format&fit=crop&crop=center"
+          alt="Cold drinks" onerror="this.style.display='none'" />
+        <div class="slide-fade"
+          style="background:linear-gradient(to right,rgba(232,244,255,.96) 40%,rgba(232,244,255,.5) 70%,transparent 100%)">
+        </div>
+        <div class="slide-text">
+          <span class="slide-label">❄️ Summer Special · 50+ Varieties</span>
+          <h2>Cool Drinks &amp; <br><span class="txt-blue">Fresh Juices</span></h2>
+          <p>Coca-Cola &middot; Maaza &middot; Real &middot; Frooti &amp; more</p>
+          <div class="slide-price txt-blue">Starting at <strong>₹20</strong></div>
+          <a href="#sec-drinks" class="slide-btn blue-btn">Shop Drinks <i class="fa-solid fa-arrow-right"></i></a>
+          <div class="slide-chips">
+            <span><i class="fa-solid fa-snowflake"></i> Ice Cold</span>
+            <span><i class="fa-solid fa-leaf"></i> Natural Juices</span>
+            <span><i class="fa-solid fa-bottle-water"></i> 50+ Varieties</span>
+            <span><i class="fa-solid fa-fire-flame-curved"></i> Summer Spl</span>
+          </div>
+        </div>
+        <div class="slide-brands">
+          <span class="sbrand" style="--bc:#c62828">Coca-Cola</span>
+          <span class="sbrand" style="--bc:#e65100">Maaza</span>
+          <span class="sbrand" style="--bc:#1b5e20">Real</span>
+        </div>
+      </div>
+
+      <!-- SLIDE 4 : Vegetables -->
+      <div class="slide" id="slide3">
+        <img class="slide-photo"
+          src="https://images.unsplash.com/photo-1542838132-92c53300491e?w=1400&q=80&auto=format&fit=crop&crop=center"
+          alt="Fresh vegetables" onerror="this.style.display='none'" />
+        <div class="slide-fade"
+          style="background:linear-gradient(to right,rgba(232,245,233,.96) 40%,rgba(232,245,233,.5) 70%,transparent 100%)">
+        </div>
+        <div class="slide-text">
+          <span class="slide-label">🌱 Farm Fresh · Zero Preservatives</span>
+          <h2>Fresh Fruits &amp; <br><span class="txt-green">Vegetables</span></h2>
+          <p>Direct from farms &middot; Organic &middot; Halal certified</p>
+          <div class="slide-price">Starting at <strong>₹15</strong></div>
+          <a href="#sec-dairy" class="slide-btn">Shop Fresh <i class="fa-solid fa-arrow-right"></i></a>
+          <div class="slide-chips">
+            <span><i class="fa-solid fa-seedling"></i> 100% Organic</span>
+            <span><i class="fa-solid fa-tractor"></i> Farm Direct</span>
+            <span><i class="fa-solid fa-certificate"></i> Halal</span>
+            <span><i class="fa-solid fa-truck-fast"></i> Same Day</span>
+          </div>
+        </div>
+        <div class="slide-brands">
+          <span class="sbrand" style="--bc:#1b5e20">Organic</span>
+          <span class="sbrand" style="--bc:#e65100">Farm Fresh</span>
+          <span class="sbrand" style="--bc:#2d8a4e">Halal ✓</span>
+        </div>
+      </div>
+
+    </div><!-- /slides -->
+
+    <button class="sl-arrow sl-prev" id="slPrev"><i class="fa-solid fa-chevron-left"></i></button>
+    <button class="sl-arrow sl-next" id="slNext"><i class="fa-solid fa-chevron-right"></i></button>
+
+    <div class="sl-dots" id="slDots">
+      <button class="sl-dot active" data-i="0"></button>
+      <button class="sl-dot" data-i="1"></button>
+      <button class="sl-dot" data-i="2"></button>
+      <button class="sl-dot" data-i="3"></button>
+    </div>
+  </section>
+
+  <!-- ═══════ CATEGORY FILTER BAR ═══════ -->
+  <div class="cat-bar" id="catBar">
+    <div class="cat-bar-inner">
+      <button class="cbar-btn active" data-section="">All</button>
+      <button class="cbar-btn" data-section="sec-dairy">🥛 Dairy</button>
+      <button class="cbar-btn" data-section="sec-snacks">🍟 Snacks</button>
+      <button class="cbar-btn" data-section="sec-drinks">🥤 Drinks</button>
+      <button class="cbar-btn" data-section="sec-icecream">🍦 Ice Cream</button>
+      <button class="cbar-btn" data-section="sec-sweets">🍫 Sweets</button>
+      <button class="cbar-btn" data-section="sec-household">🏠 Household</button>
+      <button class="cbar-btn" data-section="sec-electronics">📱 Electronics</button>
+    </div>
+  </div>
+
+  <!-- ═══════ MAIN CONTENT ═══════ -->
+  <main class="store-main">
+
+    <!-- ─── CATEGORIES ─── -->
+    <section class="store-sec" id="sec-categories">
+      <div class="sec-head">
+        <div>
+          <h2 class="sec-title">Shop by <span class="txt-red">Category</span></h2>
+        </div>
+        <a href="#" class="see-all">See All <i class="fa-solid fa-arrow-right"></i></a>
+      </div>
+
+      <!-- ROW 1 -->
+      <div class="cat-row">
+
+        <a href="/shop?cat=Instant+Food" class="cat-tile">
+          <div class="cat-tile-img">
+            <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f35c.svg" alt="Instant Food" />
+          </div>
+          <span>Instant Food</span>
+        </a>
+
+        <a href="/shop?cat=Drink+%26+Juice" class="cat-tile">
+          <div class="cat-tile-img">
+            <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f964.svg" alt="Drink & Juice" />
+          </div>
+          <span>Drink &amp; Juice</span>
+        </a>
+
+        <a href="/shop?cat=Ice+Cream" class="cat-tile">
+          <div class="cat-tile-img">
+            <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f366.svg" alt="Ice Cream" />
+          </div>
+          <span>Ice Cream</span>
+        </a>
+
+        <a href="/shop?cat=Dairy+%26+Dairy+product" class="cat-tile">
+          <div class="cat-tile-img">
+            <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f95b.svg" alt="Dairy Products" />
+          </div>
+          <span>Dairy Products</span>
+        </a>
+
+        <a href="/shop?cat=Chips+%26+Namkeen" class="cat-tile">
+          <div class="cat-tile-img">
+            <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f37f.svg" alt="Chips & Namkeen" />
+          </div>
+          <span>Chips &amp; Namkeen</span>
+        </a>
+
+        <a href="/shop?cat=Sweets+%26+Chocolate" class="cat-tile">
+          <div class="cat-tile-img">
+            <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f36b.svg"
+              alt="Sweets & Chocolate" />
+          </div>
+          <span>Sweets &amp; Chocolate</span>
+        </a>
+
+        <a href="/shop?cat=Bath+%26+Body" class="cat-tile">
+          <div class="cat-tile-img">
+            <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f9f4.svg" alt="Bath & Body" />
+          </div>
+          <span>Bath &amp; Body</span>
+        </a>
+
+      </div>
+
+      <!-- ROW 2 -->
+      <div class="cat-row" style="margin-top:14px">
+
+        <a href="/shop?cat=Household" class="cat-tile">
+          <div class="cat-tile-img">
+            <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f3e0.svg" alt="Household" />
+          </div>
+          <span>Household</span>
+        </a>
+
+        <a href="/shop?cat=Electronic" class="cat-tile">
+          <div class="cat-tile-img">
+            <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f4f1.svg" alt="Electronics" />
+          </div>
+          <span>Electronics</span>
+        </a>
+
+        <a href="/shop?cat=SIM+%26+Recharge" class="cat-tile">
+          <div class="cat-tile-img">
+            <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f4e1.svg" alt="SIM & Recharge" />
+          </div>
+          <span>SIM &amp; Recharge</span>
+        </a>
+
+        <a href="/shop?cat=Stationery" class="cat-tile">
+          <div class="cat-tile-img">
+            <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/270f.svg" alt="Stationery" />
+          </div>
+          <span>Stationery</span>
+        </a>
+
+        <a href="/shop?cat=Cash+Withdraw+Adhar" class="cat-tile">
+          <div class="cat-tile-img">
+            <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f4b5.svg" alt="Cash Withdraw" />
+          </div>
+          <span>Cash Withdraw</span>
+        </a>
+
+        <a href="/shop?cat=Print+Notebook" class="cat-tile">
+          <div class="cat-tile-img">
+            <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f5a8.svg" alt="Print & Notebook" />
+          </div>
+          <span>Print &amp; Notebook</span>
+        </a>
+
+        <a href="/shop?cat=Mobile+phone" class="cat-tile">
+          <div class="cat-tile-img">
+            <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f4f2.svg" alt="Mobile Phone" />
+          </div>
+          <span>Mobile Phone</span>
+        </a>
+
+      </div>
+    </section>
+
+    <!-- ─── PROMO STRIP ─── -->
+    <div class="promo-row">
+      <div class="promo-tile"><i class="fa-solid fa-truck-fast" style="color:#2d8a4e"></i>
+        <div><b>Free Delivery</b><span>Orders above ₹500</span></div>
+      </div>
+      <div class="promo-tile"><i class="fa-solid fa-rotate-left" style="color:#f5a623"></i>
+        <div><b>Easy Returns</b><span>7-day hassle-free</span></div>
+      </div>
+      <div class="promo-tile"><i class="fa-solid fa-shield-halved" style="color:#1565c0"></i>
+        <div><b>Secure Payments</b><span>100% encrypted</span></div>
+      </div>
+      <div class="promo-tile"><i class="fa-solid fa-headset" style="color:#e53935"></i>
+        <div><b>24/7 Support</b><span>Always here for you</span></div>
+      </div>
+    </div>
+
+    <!-- ─── FLASH DEALS ─── -->
+    <section class="store-sec" id="sec-flash">
+      <div class="sec-head">
+        <div>
+          <h2 class="sec-title">⚡ Flash <span class="txt-red">Deals</span></h2>
+          <p class="sec-sub">Ends in <span class="countdown-box" id="countdown">00:00:00</span></p>
+        </div>
+        <a href="#" class="see-all">See All <i class="fa-solid fa-arrow-right"></i></a>
+      </div>
+      <div class="prod-grid" id="gridFlash">
+        <% products.slice(0, 4).forEach(p => { 
+           const disc = p.mrp && p.mrp > p.price ? Math.round((p.mrp - p.price) / p.mrp * 100) : 0;
+           const imgUrl = p.images && p.images.length ? p.images[0] : (p.image || '');
+        %>
+        <div class="prod-card is-flash">
+          <div class="prod-img">
+            <span class="prod-badge badge-red">HOT</span>
+            <img src="<%= imgUrl %>" style="max-width:80%; max-height:80%; object-fit:contain;" alt="<%= p.title %>" onerror="this.src='https://images.pexels.com/photos/4397921/pexels-photo-4397921.jpeg?auto=compress&w=300'" />
+            <button class="wish-btn" data-id="<%= p._id %>" aria-label="Wishlist">
+              <i class="fa-regular fa-heart"></i>
+            </button>
+            <% if(disc > 0){ %><span class="prod-disc"><%= disc %>% off</span><% } %>
+          </div>
+          <div class="prod-info">
+            <div class="prod-brand"><%= p.category %></div>
+            <div class="prod-name"><%= p.title %></div>
+            <div class="price-row">
+              <span class="price-now">₹<%= p.price %></span>
+              <% if(p.mrp){ %><span class="price-old">₹<%= p.mrp %></span><% } %>
+            </div>
+            <button class="add-btn"
+              data-id="<%= p._id %>"
+              data-name="<%= p.title %>"
+              data-img="<%= imgUrl %>"
+              data-price="<%= p.price %>"
+              data-old="<%= p.mrp || '' %>">
+              <i class="fa-solid fa-plus"></i> Add to Cart
+            </button>
+          </div>
+        </div>
+        <% }) %>
+      </div>
+    </section>
+
+    <!-- ─── DAIRY ─── -->
+    <section class="store-sec" id="sec-dairy">
+      <div class="sec-head">
+        <div>
+          <h2 class="sec-title">🥛 Dairy &amp; <span class="txt-green">Milk</span></h2>
+          <p class="sec-sub">Farm-fresh · 100% Halal certified</p>
+        </div>
+        <a href="/shop?cat=Dairy+%26+Dairy+product" class="see-all">See All <i class="fa-solid fa-arrow-right"></i></a>
+      </div>
+      <div class="prod-grid" id="gridDairy">
+        <% products.filter(p => p.category === 'Dairy & Dairy product').slice(0, 4).forEach(p => { 
+           const disc = p.mrp && p.mrp > p.price ? Math.round((p.mrp - p.price) / p.mrp * 100) : 0;
+           const imgUrl = p.images && p.images.length ? p.images[0] : (p.image || '');
+        %>
+        <div class="prod-card">
+          <div class="prod-img">
+            <span class="prod-badge badge-green">Fresh</span>
+            <img src="<%= imgUrl %>" style="max-width:80%; max-height:80%; object-fit:contain;" alt="<%= p.title %>" onerror="this.src='https://images.pexels.com/photos/4397921/pexels-photo-4397921.jpeg?auto=compress&w=300'" />
+            <button class="wish-btn" data-id="<%= p._id %>" aria-label="Wishlist">
+              <i class="fa-regular fa-heart"></i>
+            </button>
+            <% if(disc > 0){ %><span class="prod-disc"><%= disc %>% off</span><% } %>
+          </div>
+          <div class="prod-info">
+            <div class="prod-brand"><%= p.category %></div>
+            <div class="prod-name"><%= p.title %></div>
+            <div class="price-row">
+              <span class="price-now">₹<%= p.price %></span>
+              <% if(p.mrp){ %><span class="price-old">₹<%= p.mrp %></span><% } %>
+            </div>
+            <button class="add-btn"
+              data-id="<%= p._id %>"
+              data-name="<%= p.title %>"
+              data-img="<%= imgUrl %>"
+              data-price="<%= p.price %>"
+              data-old="<%= p.mrp || '' %>">
+              <i class="fa-solid fa-plus"></i> Add to Cart
+            </button>
+          </div>
+        </div>
+        <% }) %>
+      </div>
+    </section>
+
+    <!-- ─── SNACKS ─── -->
+    <section class="store-sec" id="sec-snacks">
+      <div class="sec-head">
+        <div>
+          <h2 class="sec-title">🍟 Snacks &amp; <span class="txt-amber">Instant Food</span></h2>
+          <p class="sec-sub">Your favourite munchies, delivered fast</p>
+        </div>
+        <a href="/shop?cat=Instant+Food" class="see-all">See All <i class="fa-solid fa-arrow-right"></i></a>
+      </div>
+      <div class="prod-grid" id="gridSnacks">
+        <% products.filter(p => p.category === 'Chips & Namkeen' || p.category === 'Instant Food').slice(0, 4).forEach(p => { 
+           const disc = p.mrp && p.mrp > p.price ? Math.round((p.mrp - p.price) / p.mrp * 100) : 0;
+           const imgUrl = p.images && p.images.length ? p.images[0] : (p.image || '');
+        %>
+        <div class="prod-card">
+          <div class="prod-img">
+            <span class="prod-badge badge-amber">Offer</span>
+            <img src="<%= imgUrl %>" style="max-width:80%; max-height:80%; object-fit:contain;" alt="<%= p.title %>" onerror="this.src='https://images.pexels.com/photos/4397921/pexels-photo-4397921.jpeg?auto=compress&w=300'" />
+            <button class="wish-btn" data-id="<%= p._id %>" aria-label="Wishlist">
+              <i class="fa-regular fa-heart"></i>
+            </button>
+            <% if(disc > 0){ %><span class="prod-disc"><%= disc %>% off</span><% } %>
+          </div>
+          <div class="prod-info">
+            <div class="prod-brand"><%= p.category %></div>
+            <div class="prod-name"><%= p.title %></div>
+            <div class="price-row">
+              <span class="price-now">₹<%= p.price %></span>
+              <% if(p.mrp){ %><span class="price-old">₹<%= p.mrp %></span><% } %>
+            </div>
+            <button class="add-btn"
+              data-id="<%= p._id %>"
+              data-name="<%= p.title %>"
+              data-img="<%= imgUrl %>"
+              data-price="<%= p.price %>"
+              data-old="<%= p.mrp || '' %>">
+              <i class="fa-solid fa-plus"></i> Add to Cart
+            </button>
+          </div>
+        </div>
+        <% }) %>
+      </div>
+    </section>
+
+    <!-- ─── DRINKS ─── -->
+    <section class="store-sec" id="sec-drinks">
+      <div class="sec-head">
+        <div>
+          <h2 class="sec-title">🥤 Drinks &amp; <span class="txt-blue">Juices</span></h2>
+          <p class="sec-sub">Cool, refreshing &amp; delicious</p>
+        </div>
+        <a href="/shop?cat=Drink+%26+Juice" class="see-all">See All <i class="fa-solid fa-arrow-right"></i></a>
+      </div>
+      <div class="prod-grid" id="gridDrinks">
+        <% products.filter(p => p.category === 'Drink & Juice').slice(0, 4).forEach(p => { 
+           const disc = p.mrp && p.mrp > p.price ? Math.round((p.mrp - p.price) / p.mrp * 100) : 0;
+           const imgUrl = p.images && p.images.length ? p.images[0] : (p.image || '');
+        %>
+        <div class="prod-card">
+          <div class="prod-img">
+            <span class="prod-badge badge-blue">Cool</span>
+            <img src="<%= imgUrl %>" style="max-width:80%; max-height:80%; object-fit:contain;" alt="<%= p.title %>" onerror="this.src='https://images.pexels.com/photos/4397921/pexels-photo-4397921.jpeg?auto=compress&w=300'" />
+            <button class="wish-btn" data-id="<%= p._id %>" aria-label="Wishlist">
+              <i class="fa-regular fa-heart"></i>
+            </button>
+            <% if(disc > 0){ %><span class="prod-disc"><%= disc %>% off</span><% } %>
+          </div>
+          <div class="prod-info">
+            <div class="prod-brand"><%= p.category %></div>
+            <div class="prod-name"><%= p.title %></div>
+            <div class="price-row">
+              <span class="price-now">₹<%= p.price %></span>
+              <% if(p.mrp){ %><span class="price-old">₹<%= p.mrp %></span><% } %>
+            </div>
+            <button class="add-btn"
+              data-id="<%= p._id %>"
+              data-name="<%= p.title %>"
+              data-img="<%= imgUrl %>"
+              data-price="<%= p.price %>"
+              data-old="<%= p.mrp || '' %>">
+              <i class="fa-solid fa-plus"></i> Add to Cart
+            </button>
+          </div>
+        </div>
+        <% }) %>
+      </div>
+    </section>
+
+    <!-- ─── ICE CREAM ─── -->
+    <section class="store-sec" id="sec-icecream">
+      <div class="sec-head">
+        <div>
+          <h2 class="sec-title">🍦 Ice Cream &amp; <span class="txt-red">Frozen</span></h2>
+          <p class="sec-sub">Beat the heat with sweet treats</p>
+        </div>
+        <a href="/shop?cat=Ice+Cream" class="see-all">See All <i class="fa-solid fa-arrow-right"></i></a>
+      </div>
+      <div class="prod-grid" id="gridIcecream">
+        <% products.filter(p => p.category === 'Ice Cream').slice(0, 4).forEach(p => { 
+           const disc = p.mrp && p.mrp > p.price ? Math.round((p.mrp - p.price) / p.mrp * 100) : 0;
+           const imgUrl = p.images && p.images.length ? p.images[0] : (p.image || '');
+        %>
+        <div class="prod-card">
+          <div class="prod-img">
+            <span class="prod-badge badge-blue">New</span>
+            <img src="<%= imgUrl %>" style="max-width:80%; max-height:80%; object-fit:contain;" alt="<%= p.title %>" onerror="this.src='https://images.pexels.com/photos/4397921/pexels-photo-4397921.jpeg?auto=compress&w=300'" />
+            <button class="wish-btn" data-id="<%= p._id %>" aria-label="Wishlist">
+              <i class="fa-regular fa-heart"></i>
+            </button>
+            <% if(disc > 0){ %><span class="prod-disc"><%= disc %>% off</span><% } %>
+          </div>
+          <div class="prod-info">
+            <div class="prod-brand"><%= p.category %></div>
+            <div class="prod-name"><%= p.title %></div>
+            <div class="price-row">
+              <span class="price-now">₹<%= p.price %></span>
+              <% if(p.mrp){ %><span class="price-old">₹<%= p.mrp %></span><% } %>
+            </div>
+            <button class="add-btn"
+              data-id="<%= p._id %>"
+              data-name="<%= p.title %>"
+              data-img="<%= imgUrl %>"
+              data-price="<%= p.price %>"
+              data-old="<%= p.mrp || '' %>">
+              <i class="fa-solid fa-plus"></i> Add to Cart
+            </button>
+          </div>
+        </div>
+        <% }) %>
+      </div>
+    </section>
+
+    <!-- ─── SWEETS ─── -->
+    <section class="store-sec" id="sec-sweets">
+      <div class="sec-head">
+        <div>
+          <h2 class="sec-title">🍫 Sweets &amp; <span class="txt-amber">Chocolates</span></h2>
+          <p class="sec-sub">Mithai, chocolates &amp; more</p>
+        </div>
+        <a href="/shop?cat=Sweets+%26+Chocolate" class="see-all">See All <i class="fa-solid fa-arrow-right"></i></a>
+      </div>
+      <div class="prod-grid" id="gridSweets">
+        <% products.filter(p => p.category === 'Sweets & Chocolate').slice(0, 4).forEach(p => { 
+           const disc = p.mrp && p.mrp > p.price ? Math.round((p.mrp - p.price) / p.mrp * 100) : 0;
+           const imgUrl = p.images && p.images.length ? p.images[0] : (p.image || '');
+        %>
+        <div class="prod-card">
+          <div class="prod-img">
+            <span class="prod-badge badge-amber">Sweet</span>
+            <img src="<%= imgUrl %>" style="max-width:80%; max-height:80%; object-fit:contain;" alt="<%= p.title %>" onerror="this.src='https://images.pexels.com/photos/4397921/pexels-photo-4397921.jpeg?auto=compress&w=300'" />
+            <button class="wish-btn" data-id="<%= p._id %>" aria-label="Wishlist">
+              <i class="fa-regular fa-heart"></i>
+            </button>
+            <% if(disc > 0){ %><span class="prod-disc"><%= disc %>% off</span><% } %>
+          </div>
+          <div class="prod-info">
+            <div class="prod-brand"><%= p.category %></div>
+            <div class="prod-name"><%= p.title %></div>
+            <div class="price-row">
+              <span class="price-now">₹<%= p.price %></span>
+              <% if(p.mrp){ %><span class="price-old">₹<%= p.mrp %></span><% } %>
+            </div>
+            <button class="add-btn"
+              data-id="<%= p._id %>"
+              data-name="<%= p.title %>"
+              data-img="<%= imgUrl %>"
+              data-price="<%= p.price %>"
+              data-old="<%= p.mrp || '' %>">
+              <i class="fa-solid fa-plus"></i> Add to Cart
+            </button>
+          </div>
+        </div>
+        <% }) %>
+      </div>
+    </section>
+
+    <!-- ─── HOUSEHOLD ─── -->
+    <section class="store-sec" id="sec-household">
+      <div class="sec-head">
+        <div>
+          <h2 class="sec-title">🏠 Household &amp; <span class="txt-green">Bath</span></h2>
+          <p class="sec-sub">Essentials for your home</p>
+        </div>
+        <a href="/shop?cat=Household" class="see-all">See All <i class="fa-solid fa-arrow-right"></i></a>
+      </div>
+      <div class="prod-grid" id="gridHousehold">
+        <% products.filter(p => p.category === 'Household' || p.category === 'Bath & Body').slice(0, 4).forEach(p => { 
+           const disc = p.mrp && p.mrp > p.price ? Math.round((p.mrp - p.price) / p.mrp * 100) : 0;
+           const imgUrl = p.images && p.images.length ? p.images[0] : (p.image || '');
+        %>
+        <div class="prod-card">
+          <div class="prod-img">
+            <span class="prod-badge badge-green">Home</span>
+            <img src="<%= imgUrl %>" style="max-width:80%; max-height:80%; object-fit:contain;" alt="<%= p.title %>" onerror="this.src='https://images.pexels.com/photos/4397921/pexels-photo-4397921.jpeg?auto=compress&w=300'" />
+            <button class="wish-btn" data-id="<%= p._id %>" aria-label="Wishlist">
+              <i class="fa-regular fa-heart"></i>
+            </button>
+            <% if(disc > 0){ %><span class="prod-disc"><%= disc %>% off</span><% } %>
+          </div>
+          <div class="prod-info">
+            <div class="prod-brand"><%= p.category %></div>
+            <div class="prod-name"><%= p.title %></div>
+            <div class="price-row">
+              <span class="price-now">₹<%= p.price %></span>
+              <% if(p.mrp){ %><span class="price-old">₹<%= p.mrp %></span><% } %>
+            </div>
+            <button class="add-btn"
+              data-id="<%= p._id %>"
+              data-name="<%= p.title %>"
+              data-img="<%= imgUrl %>"
+              data-price="<%= p.price %>"
+              data-old="<%= p.mrp || '' %>">
+              <i class="fa-solid fa-plus"></i> Add to Cart
+            </button>
+          </div>
+        </div>
+        <% }) %>
+      </div>
+    </section>
+
+    <!-- ─── ELECTRONICS ─── -->
+    <section class="store-sec" id="sec-electronics">
+      <div class="sec-head">
+        <div>
+          <h2 class="sec-title">📱 Electronics &amp; <span class="txt-blue">Gadgets</span></h2>
+          <p class="sec-sub">Top brands at unbeatable prices</p>
+        </div>
+        <a href="/shop?cat=Electronic" class="see-all">See All <i class="fa-solid fa-arrow-right"></i></a>
+      </div>
+      <div class="prod-grid" id="gridElectronics">
+        <% products.filter(p => p.category === 'Electronic' || p.category === 'Mobile phone').slice(0, 4).forEach(p => { 
+           const disc = p.mrp && p.mrp > p.price ? Math.round((p.mrp - p.price) / p.mrp * 100) : 0;
+           const imgUrl = p.images && p.images.length ? p.images[0] : (p.image || '');
+        %>
+        <div class="prod-card">
+          <div class="prod-img">
+            <span class="prod-badge badge-blue">Tech</span>
+            <img src="<%= imgUrl %>" style="max-width:80%; max-height:80%; object-fit:contain;" alt="<%= p.title %>" onerror="this.src='https://images.pexels.com/photos/4397921/pexels-photo-4397921.jpeg?auto=compress&w=300'" />
+            <button class="wish-btn" data-id="<%= p._id %>" aria-label="Wishlist">
+              <i class="fa-regular fa-heart"></i>
+            </button>
+            <% if(disc > 0){ %><span class="prod-disc"><%= disc %>% off</span><% } %>
+          </div>
+          <div class="prod-info">
+            <div class="prod-brand"><%= p.category %></div>
+            <div class="prod-name"><%= p.title %></div>
+            <div class="price-row">
+              <span class="price-now">₹<%= p.price %></span>
+              <% if(p.mrp){ %><span class="price-old">₹<%= p.mrp %></span><% } %>
+            </div>
+            <button class="add-btn"
+              data-id="<%= p._id %>"
+              data-name="<%= p.title %>"
+              data-img="<%= imgUrl %>"
+              data-price="<%= p.price %>"
+              data-old="<%= p.mrp || '' %>">
+              <i class="fa-solid fa-plus"></i> Add to Cart
+            </button>
+          </div>
+        </div>
+        <% }) %>
+      </div>
+    </section>
+
+    <!-- ─── CTA BANNER ─── -->
+    <div class="cta-box">
+      <div class="cta-left">
+        <h2>🎉 Get 10% OFF your first order!</h2>
+        <p>Use code <strong>FRESH10</strong> at checkout. Valid on all categories.</p>
+      </div>
+      <div class="cta-right">
+        <a href="/register" class="cta-btn-w">Create Account</a>
+        <a href="/login" class="cta-btn-o">Login <i class="fa-solid fa-arrow-right"></i></a>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- ═══════ TOAST ═══════ -->
+  <div class="toast-msg" id="toastMsg">
+    <i class="fa-solid fa-circle-check"></i>
+    <span id="toastTxt">Done!</span>
+  </div>
+
+  <!-- ═══════ FOOTER ═══════ -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="foot-brand">
+        <a href="/" class="logo" style="color:#fff">
+          <i class="fa-solid fa-basket-shopping logo-icon"></i>
+          <span class="logo-text" style="color:#f5a623">Ansu<em style="color:#fff">Mart</em></span>
+        </a>
+        <p>Your trusted Halal grocery &amp; essentials delivery partner. Fresh, fast, certified.</p>
+        <div class="foot-socials">
+          <a href="#"><i class="fa-brands fa-instagram"></i></a>
+          <a href="#"><i class="fa-brands fa-facebook"></i></a>
+          <a href="#"><i class="fa-brands fa-whatsapp"></i></a>
+          <a href="#"><i class="fa-brands fa-x-twitter"></i></a>
+        </div>
+      </div>
+      <div class="foot-col">
+        <h4>Categories</h4>
+        <a href="#sec-dairy">Dairy &amp; Milk</a>
+        <a href="#sec-snacks">Snacks &amp; Food</a>
+        <a href="#sec-drinks">Drinks &amp; Juices</a>
+        <a href="#sec-electronics">Electronics</a>
+        <a href="#sec-household">Household</a>
+      </div>
+      <div class="foot-col">
+        <h4>Quick Links</h4>
+        <a href="/">Home</a>
+        <a href="/store">Shop</a>
+        <a href="/cart">Cart</a>
+        <a href="/login">Login</a>
+        <a href="/register">Register</a>
+      </div>
+      <div class="foot-col">
+        <h4>Contact</h4>
+        <p><i class="fa-solid fa-phone"></i> +91 98765 43210</p>
+        <p><i class="fa-solid fa-envelope"></i> hello@ansumart.com</p>
+        <p><i class="fa-solid fa-location-dot"></i> Katihar, Bihar, India</p>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      &copy; 2026 AnsuMart &mdash; Made with <i class="fa-solid fa-heart" style="color:#f5a623"></i> in India
+    </div>
+  </footer>
+
+  <script src="/js/cart.js"></script>
+  <script src="/js/store.js"></script>
+  <script src="/js/search.js"></script>
+
+</body>
+
+</html>

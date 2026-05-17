@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>AnsuMart – Fresh Grocery Delivery</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+</head>
+<body>
+  <header class="navbar" id="navbar">
+    <div class="nav-inner">
+      <!-- Logo -->
+      <a href="/" class="logo">
+        <span class="logo-icon"><i class="fa-solid fa-basket-shopping"></i></span>
+        <span class="logo-text">Ansu<span>Mart</span></span>
+      </a>
+
+      <!-- Search -->
+      <div class="search-wrap">
+        <i class="fa-solid fa-magnifying-glass search-icon"></i>
+        <input type="text" placeholder="Search for products..." id="searchInput" autocomplete="off"/>
+        <div class="search-suggestions" id="searchSuggestions"></div>
+      </div>
+
+      <!-- Nav Actions -->
+      <nav class="nav-actions">
+        <a href="/cart" class="nav-btn" id="cartBtn">
+          <i class="fa-solid fa-cart-shopping"></i>
+          <span>Cart</span>
+          <span class="badge" id="cartBadge">0</span>
+        </a>
+        <a href="/wishlist" class="nav-btn">
+          <i class="fa-solid fa-heart"></i>
+          <span>Wishlist</span>
+        </a>
+        </a>
+        <% if(user){ %>
+
+          <a href="/profile" class="nav-btn profile-btn">
+           <i class="fa-solid fa-circle-user"></i>
+           <span><%= user.firstName %></span>
+          </a>
+
+       <% } else { %>
+
+         <a href="/login" class="nav-btn profile-btn">
+           <i class="fa-solid fa-circle-user"></i>
+         <span>Login</span>
+         </a>
+
+      <% } %>
+      </nav>
+
+      <!-- Hamburger -->
+      <button class="hamburger" id="hamburger" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu" id="mobileMenu">
+      <a href="/cart"><i class="fa-solid fa-cart-shopping"></i> Cart</a>
+      <a href="/wishlist"><i class="fa-solid fa-heart"></i> Wishlist</a>
+      <a href="/login"><i class="fa-solid fa-circle-user"></i> Login</a>
+    </div>
+  </header>
+
+  <!-- ─── HERO ─── -->
+  <section class="hero">
+    <div class="hero-content">
+      <p class="hero-tag">
+        Halal Products <span class="tag-highlight">Online Delivery Shop</span>
+        <i class="fa-solid fa-truck-fast"></i>
+      </p>
+      <h1 class="hero-title">
+        Make Healthy Life With<br/>
+        <span class="green-text">Fresh Grocery</span>
+      </h1>
+      <p class="hero-sub">This year, our new summer collection...</p>
+
+      <div class="hero-cta-row">
+        <a href="<%= user ? '/store' : '/login' %>" class="btn-primary">
+          Shop Now <i class="fa-solid fa-arrow-right"></i>
+        </a>
+        <a href="#categories" class="btn-ghost">Explore Categories</a>
+      </div>
+
+      <!-- Social proof -->
+      <div class="social-proof">
+        <div class="avatars">
+          <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="user"/>
+          <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="user"/>
+          <img src="https://randomuser.me/api/portraits/women/68.jpg" alt="user"/>
+        </div>
+        <div class="proof-text">
+          <div class="stars">
+            <i class="fa-solid fa-star"></i>
+            <i class="fa-solid fa-star"></i>
+            <i class="fa-solid fa-star"></i>
+            <i class="fa-solid fa-star"></i>
+            <i class="fa-solid fa-star"></i>
+            <strong>4.8</strong> <span>(2.3k reviews)</span>
+          </div>
+          <p class="happy-customers">+500 Happy Customers</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Hero visual -->
+    <div class="hero-visual">
+      <div class="green-blob"></div>
+      <div class="green-spike spike-1"></div>
+      <div class="green-spike spike-2"></div>
+      <div class="hero-img-wrap">
+        <img
+          src="https://img.freepik.com/free-photo/young-woman-holding-shopping-bags-groceries_23-2148122586.jpg"
+          alt="Woman with fresh groceries"
+          class="hero-img"
+          onerror="this.src='https://placehold.co/420x540/2d8a4e/ffffff?text=Fresh+Grocery'"
+        />
+        <div class="floating-badge badge-delivery">
+          <i class="fa-solid fa-bolt"></i> Fast Delivery
+        </div>
+        <div class="floating-badge badge-organic">
+          <i class="fa-solid fa-leaf"></i> 100% Organic
+        </div>
+      </div>
+    </div>
+
+    <!-- Scroll indicator -->
+    <div class="scroll-hint">
+      <span>Scroll</span>
+      <div class="scroll-line"></div>
+    </div>
+  </section>
+
+  <!-- ─── STATS STRIP ─── -->
+  <section class="stats-strip">
+    <div class="stat-item">
+      <strong class="stat-num" data-target="500+">0</strong><span>+</span>
+      <p>Happy Customers</p>
+    </div>
+    <div class="stat-divider"></div>
+    <div class="stat-item">
+      <strong class="stat-num" data-target="200+">0</strong><span>+</span>
+      <p>Products Available</p>
+    </div>
+    <div class="stat-divider"></div>
+    <div class="stat-item">
+      <strong class="stat-num" data-target="50">0</strong><span> min</span>
+      <p>Avg Delivery Time</p>
+    </div>
+    <div class="stat-divider"></div>
+    <div class="stat-item">
+      <strong class="stat-num" data-target="99">0</strong><span>%</span>
+      <p>Halal Certified</p>
+    </div>
+  </section>
+
+  <!-- ─── CATEGORIES ─── -->
+  <section class="section categories-section" id="categories">
+    <div class="section-header">
+      <h2>Shop by <span class="green-text">Category</span></h2>
+      <p>Explore our wide range of fresh and organic products</p>
+    </div>
+    <div class="categories-grid">
+      <% const cats = [
+        { icon: 'fa-apple-whole',   label: 'Fruits',      color: '#ff6b35', bg: '#fff3ee' },
+        { icon: 'fa-carrot',        label: 'Vegetables',  color: '#2d8a4e', bg: '#edf7f1' },
+        { icon: 'fa-egg',           label: 'Dairy & Eggs',color: '#f5a623', bg: '#fffbf0' },
+        { icon: 'fa-drumstick-bite',label: 'Meat & Fish', color: '#e74c3c', bg: '#fdf0ef' },
+        { icon: 'fa-bread-slice',   label: 'Bakery',      color: '#8b5e3c', bg: '#f9f3ee' },
+        { icon: 'fa-bottle-water',  label: 'Beverages',   color: '#2980b9', bg: '#eef6fc' },
+      ]; %>
+      <% cats.forEach(cat => { %>
+        <a href="/login" class="cat-card" style="--c: <%= cat.color %>; --bg: <%= cat.bg %>">
+          <div class="cat-icon">
+            <i class="fa-solid <%= cat.icon %>"></i>
+          </div>
+          <span><%= cat.label %></span>
+          <i class="fa-solid fa-arrow-right cat-arrow"></i>
+        </a>
+      <% }); %>
+    </div>
+  </section>
+
+  <!-- ─── FEATURED PRODUCTS ─── -->
+  <section class="section products-section" id="products">
+    <div class="section-header">
+      <h2>Featured <span class="green-text">Products</span></h2>
+      <p>Handpicked fresh items just for you</p>
+    </div>
+    <div class="products-grid">
+      <% const products = [
+        { name: 'Fresh Spinach Bunch',  price: '₹35',  old: '₹50',  tag: 'Organic', emoji: '🥬' },
+        { name: 'Red Apple (1kg)',       price: '₹120', old: '₹150', tag: 'Fresh',   emoji: '🍎' },
+        { name: 'Farm Eggs (12 pcs)',    price: '₹85',  old: '₹100', tag: 'Halal',   emoji: '🥚' },
+        { name: 'Whole Milk (1L)',       price: '₹60',  old: '₹75',  tag: 'Pure',    emoji: '🥛' },
+      ]; %>
+      <% products.forEach(p => { %>
+        <div class="product-card">
+          <div class="product-img">
+            <span class="product-emoji"><%= p.emoji %></span>
+            <span class="product-tag"><%= p.tag %></span>
+            <button class="wishlist-btn" title="Add to Wishlist"><i class="fa-regular fa-heart"></i></button>
+          </div>
+          <div class="product-info">
+            <h3><%= p.name %></h3>
+            <div class="price-row">
+              <span class="price"><%= p.price %></span>
+              <span class="old-price"><%= p.old %></span>
+            </div>
+            <a href="/login" class="btn-add">
+              <i class="fa-solid fa-plus"></i> Add to Cart
+            </a>
+          </div>
+        </div>
+      <% }); %>
+    </div>
+    <div class="view-all-wrap">
+      <a href="/login" class="btn-outline">View All Products <i class="fa-solid fa-arrow-right"></i></a>
+    </div>
+  </section>
+
+  <!-- ─── WHY CHOOSE US ─── -->
+  <section class="section why-section">
+    <div class="why-grid">
+      <div class="why-text">
+        <h2>Why Choose <span class="green-text">AnsuMart?</span></h2>
+        <p class="why-sub">We bring the freshest Halal-certified groceries straight to your doorstep with speed and care.</p>
+        <ul class="why-list">
+          <li><i class="fa-solid fa-circle-check"></i> 100% Halal Certified Products</li>
+          <li><i class="fa-solid fa-circle-check"></i> Same-day delivery available</li>
+          <li><i class="fa-solid fa-circle-check"></i> Fresh farm-to-table sourcing</li>
+          <li><i class="fa-solid fa-circle-check"></i> Easy returns & refunds</li>
+          <li><i class="fa-solid fa-circle-check"></i> Secure & fast checkout</li>
+        </ul>
+        <a href="/login" class="btn-primary" style="margin-top:2rem; display:inline-flex;">Get Started <i class="fa-solid fa-arrow-right"></i></a>
+      </div>
+      <div class="why-cards">
+        <div class="why-card card-green">
+          <i class="fa-solid fa-truck-fast"></i>
+          <h4>Fast Delivery</h4>
+          <p>Get your groceries in under 30 minutes</p>
+        </div>
+        <div class="why-card card-yellow">
+          <i class="fa-solid fa-shield-halved"></i>
+          <h4>100% Safe</h4>
+          <p>Hygienic packing and handling always</p>
+        </div>
+        <div class="why-card card-white">
+          <i class="fa-solid fa-tags"></i>
+          <h4>Best Prices</h4>
+          <p>Competitive pricing every single day</p>
+        </div>
+        <div class="why-card card-dark">
+          <i class="fa-solid fa-headset"></i>
+          <h4>24/7 Support</h4>
+          <p>We're here whenever you need us</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── TESTIMONIALS ─── -->
+  <section class="section testimonials-section">
+    <div class="section-header">
+      <h2>What Our <span class="green-text">Customers Say</span></h2>
+    </div>
+    <div class="testimonials-track" id="testimonialsTrack">
+      <% const reviews = [
+        { name: 'Aisha Rahman',  avatar: 'women/44', text: 'Absolutely love AnsuMart! The vegetables are always super fresh and delivery is lightning fast.' },
+        { name: 'Rahul Sharma',  avatar: 'men/32',   text: 'Best halal grocery shop online. Prices are great and the quality never disappoints.' },
+        { name: 'Fatima Khan',   avatar: 'women/68', text: 'I order every week. My family trusts AnsuMart completely for our halal needs.' },
+        { name: 'Arjun Mehta',   avatar: 'men/55',   text: 'Fast delivery and top-notch quality. Highly recommend to everyone!' },
+      ]; %>
+      <% reviews.forEach(r => { %>
+        <div class="testimonial-card">
+          <div class="stars-row">
+            <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+            <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+            <i class="fa-solid fa-star"></i>
+          </div>
+          <p class="review-text">"<%= r.text %>"</p>
+          <div class="reviewer">
+            <img src="https://randomuser.me/api/portraits/<%= r.avatar %>.jpg" alt="<%= r.name %>"/>
+            <strong><%= r.name %></strong>
+          </div>
+        </div>
+      <% }); %>
+    </div>
+    <div class="testimonial-dots" id="testimDots"></div>
+  </section>
+
+  <!-- ─── CTA BANNER ─── -->
+  <section class="cta-banner">
+    <div class="cta-inner">
+      <div class="cta-text">
+        <h2>Ready to Shop Fresh?</h2>
+        <p>Sign up now and get 10% off your first order!</p>
+      </div>
+      <div class="cta-buttons">
+        <a href="/register" class="btn-white">Create Account</a>
+        <a href="/login" class="btn-ghost-white">Login <i class="fa-solid fa-arrow-right"></i></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── FOOTER ─── -->
+  <footer class="footer">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="/" class="logo">
+          <span class="logo-icon"><i class="fa-solid fa-basket-shopping"></i></span>
+          <span class="logo-text white">Ansu<span>Mart</span></span>
+        </a>
+        <p>Your trusted Halal grocery delivery partner. Fresh, fast, and always certified.</p>
+        <div class="socials">
+          <a href="#"><i class="fa-brands fa-instagram"></i></a>
+          <a href="#"><i class="fa-brands fa-facebook"></i></a>
+          <a href="#"><i class="fa-brands fa-whatsapp"></i></a>
+          <a href="#"><i class="fa-brands fa-x-twitter"></i></a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Quick Links</h4>
+        <a href="/">Home</a>
+        <a href="#categories">Categories</a>
+        <a href="#products">Products</a>
+        <a href="/login">Login</a>
+        <a href="/register">Register</a>
+      </div>
+      <div class="footer-col">
+        <h4>Categories</h4>
+        <a href="/login">Fruits & Vegetables</a>
+        <a href="/login">Dairy & Eggs</a>
+        <a href="/login">Meat & Fish</a>
+        <a href="/login">Bakery</a>
+        <a href="/login">Beverages</a>
+      </div>
+      <div class="footer-col">
+        <h4>Contact Us</h4>
+        <p><i class="fa-solid fa-phone"></i> +91 98765 43210</p>
+        <p><i class="fa-solid fa-envelope"></i> hello@ansumart.com</p>
+        <p><i class="fa-solid fa-location-dot"></i> Katihar, Bihar, India</p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2026 AnsuMart. All rights reserved. Made with <i class="fa-solid fa-heart" style="color:#f5a623"></i> in India.</p>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+  <script src="js/search.js"></script>
+</body>
+</html>

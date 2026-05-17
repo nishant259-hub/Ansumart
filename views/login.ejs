@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Login – AnsuMart</title>
+  <link rel="stylesheet" href="/css/login.css">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+</head>
+<body>
+  <!-- ─── BACKGROUND BLOBS ─── -->
+  <div class="bg-blobs" aria-hidden="true">
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+    <div class="blob blob-3"></div>
+    <!-- Floating food emojis -->
+    <span class="float-emoji e1">🥦</span>
+    <span class="float-emoji e2">🍎</span>
+    <span class="float-emoji e3">🥕</span>
+    <span class="float-emoji e4">🧅</span>
+    <span class="float-emoji e5">🍋</span>
+    <span class="float-emoji e6">🥛</span>
+  </div>
+
+  <!-- ─── MAIN WRAPPER ─── -->
+  <div class="page-wrap">
+
+    <!-- LEFT PANEL -->
+    <aside class="left-panel">
+      <a href="/" class="logo">
+        <span class="logo-icon"><i class="fa-solid fa-basket-shopping"></i></span>
+        <span class="logo-text">Ansu<span>Mart</span></span>
+      </a>
+
+      <div class="panel-body">
+        <h2>Fresh Grocery,<br/><span>Delivered Fast.</span></h2>
+        <p>Log in to explore hundreds of Halal-certified products and get them at your doorstep in minutes.</p>
+
+        <ul class="perks">
+          <li><i class="fa-solid fa-truck-fast"></i> Same-day delivery</li>
+          <li><i class="fa-solid fa-shield-halved"></i> 100% Halal certified</li>
+          <li><i class="fa-solid fa-leaf"></i> Farm-fresh produce</li>
+          <li><i class="fa-solid fa-tags"></i> Best prices guaranteed</li>
+        </ul>
+
+        <!-- Social proof mini -->
+        <div class="panel-proof">
+          <div class="mini-avatars">
+            <img src="https://randomuser.me/api/portraits/women/44.jpg" alt=""/>
+            <img src="https://randomuser.me/api/portraits/men/32.jpg" alt=""/>
+            <img src="https://randomuser.me/api/portraits/women/68.jpg" alt=""/>
+          </div>
+          <div>
+            <div class="mini-stars">
+              <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+              <strong>4.8</strong>
+            </div>
+            <p class="mini-label">+500 happy customers</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Decorative circles -->
+      <div class="deco-circle c1"></div>
+      <div class="deco-circle c2"></div>
+    </aside>
+
+    <!-- RIGHT PANEL – LOGIN FORM -->
+    <main class="right-panel">
+      <div class="form-card">
+
+        <!-- Flash messages (EJS) -->
+        <% if (typeof error !== 'undefined' && error) { %>
+          <div class="alert alert-error">
+            <i class="fa-solid fa-circle-exclamation"></i> <%= error %>
+          </div>
+        <% } %>
+        <% if (typeof success !== 'undefined' && success) { %>
+          <div class="alert alert-success">
+            <i class="fa-solid fa-circle-check"></i> <%= success %>
+          </div>
+        <% } %>
+
+        <div class="form-header">
+          <h1>Welcome back 👋</h1>
+          <p>Login to your AnsuMart account</p>
+        </div>
+
+        <form id="loginForm" action="/login" method="POST" novalidate>
+
+          <!-- Email -->
+          <div class="field-group" id="emailGroup">
+            <label for="email">Email address</label>
+            <div class="input-wrap">
+              <i class="fa-solid fa-envelope input-icon"></i>
+              <input
+                type="email"
+                id="email"
+                name="email"
+                placeholder="you@example.com"
+                autocomplete="email"
+                value="<%= typeof formData !== 'undefined' ? formData.email : '' %>"
+              />
+              <span class="valid-tick"><i class="fa-solid fa-check"></i></span>
+            </div>
+            <span class="field-error" id="emailError"></span>
+          </div>
+
+          <!-- Password -->
+          <div class="field-group" id="passwordGroup">
+            <label for="password">Password</label>
+            <div class="input-wrap">
+              <i class="fa-solid fa-lock input-icon"></i>
+              <input
+                type="password"
+                id="password"
+                name="password"
+                placeholder="Enter your password"
+                autocomplete="current-password"
+              />
+              <button type="button" class="toggle-pw" id="togglePw" aria-label="Show password">
+                <i class="fa-solid fa-eye" id="eyeIcon"></i>
+              </button>
+            </div>
+            <span class="field-error" id="passwordError"></span>
+          </div>
+
+          <!-- Remember + Forgot -->
+          <div class="form-meta">
+            <label class="remember-label">
+              <input type="checkbox" name="remember" id="remember"/>
+              <span class="custom-check"></span>
+              Remember me
+            </label>
+            <a href="/forgot-password" class="forgot-link">Forgot password?</a>
+          </div>
+
+          <!-- Submit -->
+          <button type="submit" class="btn-login" id="submitBtn">
+            <span class="btn-text">Login to AnsuMart</span>
+            <span class="btn-spinner" id="btnSpinner" aria-hidden="true">
+              <i class="fa-solid fa-circle-notch fa-spin"></i>
+            </span>
+            <i class="fa-solid fa-arrow-right btn-arrow"></i>
+          </button>
+
+          <!-- Divider -->
+          <div class="divider"><span>or continue with</span></div>
+
+          <!-- Social login -->
+          <div class="social-login">
+            <button type="button" class="social-btn" onclick="window.location.href='/auth/google'" style="flex:1;">
+              <img src="https://www.svgrepo.com/show/475656/google-color.svg" alt="Google" width="20"/>
+              Continue with Google
+            </button>
+          </div>
+
+        </form>
+
+        <!-- Register link -->
+        <p class="register-prompt">
+          Don't have an account?
+          <a href="/register" class="register-link">Create one free <i class="fa-solid fa-arrow-right"></i></a>
+        </p>
+
+      </div><!-- /.form-card -->
+    </main>
+
+  </div><!-- /.page-wrap -->
+
+  <script src="js/login.js"></script>
+</body>
+</html>

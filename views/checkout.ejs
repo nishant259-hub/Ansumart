@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Checkout – AnsuMart</title>
+  <link rel="stylesheet" href="/css/checkout.css" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Nunito:wght@700;800;900&family=Inter:wght@400;500;600&display=swap"
+    rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+</head>
+
+<body>
+
+  <!-- NAVBAR -->
+  <header class="navbar">
+    <a href="/" class="brand">🛒 <span>AnsuMart</span></a>
+    <div class="steps">
+      <a href="/cart" class="step done" style="text-decoration:none;"><span>1</span> Cart</a>
+      <div class="step-line done"></div>
+      <div class="step active"><span>2</span> Checkout</div>
+      <div class="step-line"></div>
+      <div class="step"><span>3</span> Confirmed</div>
+    </div>
+    <a href="/cart" class="back-link"><i class="fa fa-arrow-left"></i> Back</a>
+  </header>
+
+  <main class="checkout-page">
+    <div class="checkout-layout">
+
+      <!-- ===== LEFT ===== -->
+      <div class="left-col">
+
+        <!-- ADDRESS CARD -->
+        <div class="card">
+          <div class="card-head">
+            <span class="card-num">1</span>
+            <h2>Delivery Address</h2>
+          </div>
+
+          <!-- Saved address -->
+          <% if (user.address && user.address.line) { %>
+            <div class="radio-group">
+
+              <label class="radio-option">
+                <input type="radio" name="addrChoice" value="saved" checked onchange="toggleAddr('saved')" />
+                <div class="radio-box">
+                  <div class="radio-box-top">
+                    <span class="addr-badge">
+                      <%= user.address.type==='home' ? '🏠 Home' : user.address.type==='work' ? '🏢 Work' : '📍 Other'
+                        %>
+                    </span>
+                    <span class="addr-name">
+                      <%= user.firstName %>
+                        <%= user.lastName %>
+                    </span>
+                  </div>
+                  <p class="addr-line">
+                    <%= user.address.line %>, <%= user.address.city %>, <%= user.address.state %> – <%=
+                            user.address.pincode %>
+                  </p>
+                </div>
+              </label>
+
+              <label class="radio-option">
+                <input type="radio" name="addrChoice" value="new" onchange="toggleAddr('new')" />
+                <div class="radio-box new-box">
+                  <i class="fa fa-plus"></i> Use a different address
+                </div>
+              </label>
+
+            </div>
+            <% } %>
+
+              <!-- New address form -->
+              <div id="newAddrForm" class="addr-form"
+                style="<%= (user.address && user.address.line) ? 'display:none' : '' %>">
+
+                <div class="fg-row">
+                  <div class="fg">
+                    <label>Full Name</label>
+                    <input type="text" id="aName" value="<%= user.firstName %> <%= user.lastName %>" />
+                  </div>
+                  <div class="fg">
+                    <label>Phone</label>
+                    <input type="tel" id="aPhone" value="<%= user.phone || '' %>" placeholder="+91 98765 43210" />
+                  </div>
+                </div>
+
+                <div class="fg">
+                  <label>House / Street</label>
+                  <input type="text" id="aLine" placeholder="House No., Street, Area" />
+                </div>
+
+                <div class="fg-row">
+                  <div class="fg">
+                    <label>City</label>
+                    <input type="text" id="aCity" placeholder="City" />
+                  </div>
+                  <div class="fg">
+                    <label>State</label>
+                    <input type="text" id="aState" placeholder="State" />
+                  </div>
+                </div>
+
+                <div class="fg-row">
+                  <div class="fg">
+                    <label>Pincode</label>
+                    <input type="text" id="aPincode" placeholder="Pincode" />
+                  </div>
+                  <div class="fg">
+                    <label>Type</label>
+                    <select id="aType">
+                      <option value="home">🏠 Home</option>
+                      <option value="work">🏢 Work</option>
+                      <option value="other">📍 Other</option>
+                    </select>
+                  </div>
+                </div>
+
+                <label class="save-check">
+                  <input type="checkbox" id="saveAddr" checked />
+                  Save this address to my profile
+                </label>
+
+              </div>
+        </div>
+
+        <!-- ORDER ITEMS CARD -->
+        <div class="card">
+          <div class="card-head">
+            <span class="card-num">2</span>
+            <h2>Order Items</h2>
+            <span class="item-label" id="itemLabel"></span>
+          </div>
+          <div id="itemsList"></div>
+        </div>
+
+        <!-- PAYMENT CARD -->
+        <div class="card">
+          <div class="card-head">
+            <span class="card-num">3</span>
+            <h2>Payment</h2>
+          </div>
+          <div class="cod-box">
+            <div class="cod-icon"><i class="fa fa-money-bill-wave"></i></div>
+            <div>
+              <strong>Cash on Delivery</strong>
+              <p>Pay when your order arrives at your door</p>
+            </div>
+            <span class="cod-tag">COD</span>
+          </div>
+          <div class="cod-note">
+            <i class="fa fa-circle-info"></i>
+            Please keep exact change ready. Our delivery partner will collect payment at delivery.
+          </div>
+        </div>
+
+      </div>
+
+      <!-- ===== RIGHT: SUMMARY ===== -->
+      <aside class="right-col">
+        <div class="summary-card">
+          <h2>Order Summary</h2>
+
+          <div class="sum-rows">
+            <div class="sum-row"><span>Subtotal</span><span id="sSubtotal">₹0</span></div>
+            <div class="sum-row"><span>Delivery</span><span id="sDelivery">₹40</span></div>
+            <div class="sum-row"><span>Tax (5%)</span><span id="sTax">₹0</span></div>
+            <div class="sum-row" id="sDiscountRow" style="display:none">
+              <span>🏷️ Coupon Discount</span>
+              <span id="sDiscount" style="color:#e53935">-₹0</span>
+            </div>
+          </div>
+
+          <div class="sum-divider"></div>
+
+          <div class="sum-total">
+            <span>Total</span>
+            <strong id="sTotal">₹0</strong>
+          </div>
+
+          <div class="free-delivery-note" id="freeNote" style="display:none">
+            🎉 You got FREE delivery!
+          </div>
+
+          <!-- Coupon applied banner -->
+          <div id="couponBanner" style="display:none;margin-top:10px;padding:10px 14px;background:#f0fdf4;border:1.5px solid #bbf7d0;border-radius:10px;color:#166534;font-size:0.85rem;font-weight:600;">
+          </div>
+
+          <div class="eta-row">
+            <i class="fa fa-truck-fast"></i>
+            Estimated delivery: <strong>
+              <%
+                const __m = typeof deliveryMins !== 'undefined' ? Number(deliveryMins) : 30;
+                const __delText = __m > 100 ? (__m/60).toFixed(1) + ' hrs' : __m + ' mins';
+              %>
+              <%= __delText %>
+            </strong>
+          </div>
+
+          <button class="btn-order" id="orderBtn" onclick="placeOrder()">
+            <i class="fa fa-check-circle"></i>
+            <span id="orderBtnTxt">Place Order (COD)</span>
+          </button>
+
+          <div class="trust-row">
+            <span><i class="fa fa-shield-halved"></i> Safe</span>
+            <span><i class="fa fa-leaf"></i> 100% Halal</span>
+            <span><i class="fa fa-rotate-left"></i> Easy Returns</span>
+          </div>
+        </div>
+      </aside>
+
+    </div>
+  </main>
+
+  <!-- SUCCESS OVERLAY -->
+  <div class="success-overlay" id="successOverlay" style="display:none">
+    <div class="success-box">
+      <div class="success-emoji">🎉</div>
+      <h2>Order Placed!</h2>
+      <p>Your order is confirmed. Pay cash on delivery.</p>
+      <p class="oid">Order ID: <strong id="successOId"></strong></p>
+      <a href="/profile" class="btn-orders">View My Orders</a>
+      <a href="/shop" class="btn-shop">Continue Shopping</a>
+    </div>
+  </div>
+
+  <script>
+    const SERVER_USER = <%- JSON.stringify({
+      firstName: user.firstName || '',
+      lastName:  user.lastName  || '',
+      phone:     user.phone     || '',
+      address:   user.address   || {}
+    }) %>;
+    window.__USER_ID__ = "<%= user._id %>";
+  </script>
+  <script src="/js/checkout.js"></script>
+</body>
+
+</html>

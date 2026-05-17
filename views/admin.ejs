@@ -1,0 +1,710 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Admin Panel – AnsuMart</title>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@700;800;900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    :root{
+      --green:#25a244;--dark:#0f172a;--dark2:#1e293b;
+      --accent:#6366f1;--red:#ef4444;--orange:#f59e0b;
+      --gray:#94a3b8;--light:#f1f5f9;--white:#fff;
+      --radius:12px;--shadow:0 2px 16px rgba(0,0,0,.10);
+    }
+    body{font-family:'Inter',sans-serif;background:var(--light);color:var(--dark);min-height:100vh;display:flex;}
+
+    /* ── SIDEBAR ── */
+    .sidebar{
+      width:230px;min-height:100vh;background:var(--dark);
+      display:flex;flex-direction:column;position:fixed;top:0;left:0;z-index:30;
+    }
+    .sb-brand{
+      padding:22px 20px 16px;border-bottom:1px solid #1e293b;
+      font-family:'Nunito',sans-serif;font-size:20px;font-weight:900;color:var(--green);
+    }
+    .sb-brand span{color:#e2e8f0;font-size:12px;font-weight:500;display:block;margin-top:2px;}
+    .sb-nav{flex:1;padding:12px 0;}
+    .sb-link{
+      display:flex;align-items:center;gap:11px;
+      padding:12px 20px;color:#94a3b8;font-size:14px;font-weight:500;
+      cursor:pointer;transition:all .18s;border:none;background:none;width:100%;text-align:left;
+      text-decoration:none;
+    }
+    .sb-link i{width:18px;text-align:center;}
+    .sb-link:hover,.sb-link.active{background:#1e293b;color:#fff;}
+    .sb-link.active{border-left:3px solid var(--green);padding-left:17px;}
+    .sb-logout{padding:16px 20px;border-top:1px solid #1e293b;}
+    .sb-logout a{display:flex;align-items:center;gap:9px;color:#f87171;font-size:13px;font-weight:600;text-decoration:none;}
+
+    /* ── MAIN ── */
+    .main{margin-left:230px;flex:1;min-height:100vh;display:flex;flex-direction:column;}
+    .topbar{
+      background:var(--white);border-bottom:1px solid #e2e8f0;
+      padding:0 28px;height:58px;display:flex;align-items:center;justify-content:space-between;
+      position:sticky;top:0;z-index:20;box-shadow:var(--shadow);
+    }
+    .topbar-title{font-family:'Nunito',sans-serif;font-size:18px;font-weight:800;}
+    .admin-badge{background:#dcfce7;color:#166534;font-size:11px;font-weight:700;padding:3px 10px;border-radius:20px;}
+    .content{padding:28px;max-width:1100px;}
+
+    /* ── STATS ── */
+    .stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:28px;}
+    .stat-card{
+      background:var(--white);border-radius:var(--radius);padding:20px;
+      box-shadow:var(--shadow);display:flex;align-items:center;gap:14px;
+    }
+    .stat-icon{width:48px;height:48px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;}
+    .stat-icon.g{background:#dcfce7;color:var(--green);}
+    .stat-icon.b{background:#dbeafe;color:#2563eb;}
+    .stat-icon.o{background:#fef3c7;color:var(--orange);}
+    .stat-icon.r{background:#fef2f2;color:var(--red);}
+    .stat-num{font-family:'Nunito',sans-serif;font-size:26px;font-weight:900;}
+    .stat-lbl{font-size:12px;color:var(--gray);}
+
+    /* ── PANELS ── */
+    .panel{display:none;animation:fadeIn .2s ease;}
+    .panel.active{display:block;}
+    @keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+
+    /* ── TABLE ── */
+    .card{background:var(--white);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden;margin-bottom:20px;}
+    .card-head{padding:16px 20px;border-bottom:1px solid #f1f5f9;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;}
+    .card-head h3{font-family:'Nunito',sans-serif;font-size:16px;font-weight:800;}
+    table{width:100%;border-collapse:collapse;}
+    th{background:#f8fafc;font-size:11.5px;font-weight:700;color:var(--gray);text-transform:uppercase;padding:10px 14px;text-align:left;}
+    td{padding:12px 14px;font-size:13.5px;border-top:1px solid #f1f5f9;vertical-align:middle;}
+    tr:hover td{background:#f8fafc;}
+    .prod-img{width:44px;height:44px;object-fit:contain;border-radius:8px;background:#f1f5f9;border:1px solid #e2e8f0;}
+    .prod-title{font-weight:600;}
+    .cat-chip{background:#e0f2fe;color:#0369a1;font-size:11px;font-weight:600;padding:2px 8px;border-radius:10px;}
+
+    /* ── BUTTONS ── */
+    .btn{display:inline-flex;align-items:center;gap:6px;padding:8px 14px;border-radius:8px;font-size:13px;font-weight:600;border:none;cursor:pointer;transition:all .17s;font-family:'Inter',sans-serif;}
+    .btn-green{background:var(--green);color:#fff;}  .btn-green:hover{background:#1a8c38;}
+    .btn-blue{background:#3b82f6;color:#fff;}         .btn-blue:hover{background:#2563eb;}
+    .btn-red{background:var(--red);color:#fff;}       .btn-red:hover{background:#dc2626;}
+    .btn-orange{background:var(--orange);color:#fff;} .btn-orange:hover{background:#d97706;}
+    .btn-gray{background:#f1f5f9;color:var(--dark);border:1px solid #e2e8f0;} .btn-gray:hover{background:#e2e8f0;}
+    .btn-sm{padding:5px 10px;font-size:12px;}
+
+    /* Status select */
+    .status-sel{
+      padding:5px 8px;border-radius:7px;font-size:12px;font-weight:600;
+      border:1.5px solid #e2e8f0;background:var(--white);cursor:pointer;
+      font-family:'Inter',sans-serif;
+    }
+    .status-sel:focus{outline:none;border-color:var(--green);}
+
+    /* Status badges */
+    .badge{display:inline-block;padding:3px 10px;border-radius:20px;font-size:11.5px;font-weight:700;}
+    .badge.pending         {background:#fef9c3;color:#854d0e;}
+    .badge.confirmed       {background:#dbeafe;color:#1e40af;}
+    .badge.dispatched      {background:#ede9fe;color:#5b21b6;}
+    .badge.out_for_delivery{background:#ffedd5;color:#9a3412;}
+    .badge.delivered       {background:#dcfce7;color:#166534;}
+    .badge.cancelled       {background:#fef2f2;color:#b91c1c;}
+
+    /* ── MODAL ── */
+    .modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:100;display:none;align-items:center;justify-content:center;}
+    .modal-bg.open{display:flex;}
+    .modal{background:var(--white);border-radius:16px;padding:28px;width:100%;max-width:500px;max-height:90vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,.2);}
+    .modal h3{font-family:'Nunito',sans-serif;font-size:18px;font-weight:800;margin-bottom:18px;}
+    .fg{display:flex;flex-direction:column;gap:5px;margin-bottom:14px;}
+    .fg label{font-size:13px;font-weight:600;}
+    .fg input,.fg select,.fg textarea{padding:10px 13px;border:1.5px solid #e2e8f0;border-radius:9px;font-family:'Inter',sans-serif;font-size:14px;outline:none;transition:border .18s;}
+    .fg input:focus,.fg select:focus,.fg textarea:focus{border-color:var(--green);}
+    .fg textarea{resize:vertical;min-height:80px;}
+    .fg-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+    .modal-foot{display:flex;gap:10px;justify-content:flex-end;margin-top:18px;}
+
+    /* ── TOAST ── */
+    #adminToast{position:fixed;bottom:24px;right:24px;background:var(--dark);color:#fff;padding:12px 20px;border-radius:10px;font-size:14px;font-weight:600;z-index:200;opacity:0;transform:translateY(10px);transition:all .25s;pointer-events:none;}
+    #adminToast.show{opacity:1;transform:translateY(0);}
+    #adminToast.green{background:var(--green);}
+    #adminToast.red{background:var(--red);}
+
+    /* ── SEARCH ── */
+    .search-wrap{position:relative;}
+    .search-wrap input{padding:8px 12px 8px 34px;border:1.5px solid #e2e8f0;border-radius:9px;font-size:13px;font-family:'Inter',sans-serif;outline:none;width:220px;}
+    .search-wrap i{position:absolute;left:10px;top:50%;transform:translateY(-50%);color:var(--gray);font-size:13px;}
+
+    @media(max-width:768px){
+      .sidebar{width:64px;} .sb-link span,.sb-brand span,.sb-brand em,.sb-logout a span{display:none;}
+      .main{margin-left:64px;} .stats-row{grid-template-columns:1fr 1fr;}
+    }
+  </style>
+</head>
+<body>
+
+<!-- SIDEBAR -->
+<aside class="sidebar">
+  <div class="sb-brand">🛒 AnsuMart <span>Admin Panel</span></div>
+  <nav class="sb-nav">
+    <button class="sb-link active" onclick="showPanel('dashboard')"><i class="fa fa-gauge"></i><span>Dashboard</span></button>
+    <button class="sb-link" onclick="showPanel('products')"><i class="fa fa-box"></i><span>Products</span></button>
+    <button class="sb-link" onclick="showPanel('orders')"><i class="fa fa-receipt"></i><span>Orders</span></button>
+    <button class="sb-link" onclick="showPanel('users')"><i class="fa fa-users"></i><span>Users</span></button>
+  </nav>
+  <div class="sb-logout"><a href="/logout"><i class="fa fa-right-from-bracket"></i><span>Logout</span></a></div>
+</aside>
+
+<!-- MAIN -->
+<div class="main">
+  <div class="topbar">
+    <div class="topbar-title">👋 Welcome, <%= admin.firstName %></div>
+    <span class="admin-badge"><i class="fa fa-shield-halved"></i> Admin</span>
+  </div>
+
+  <div class="content">
+
+    <!-- ===== DASHBOARD ===== -->
+    <div id="panel-dashboard" class="panel active">
+      <div class="stats-row">
+        <div class="stat-card">
+          <div class="stat-icon g"><i class="fa fa-box-open"></i></div>
+          <div><div class="stat-num"><%= products.length %></div><div class="stat-lbl">Products</div></div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon b"><i class="fa fa-receipt"></i></div>
+          <div><div class="stat-num"><%= orders.length %></div><div class="stat-lbl">Total Orders</div></div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon o"><i class="fa fa-clock"></i></div>
+          <div><div class="stat-num"><%= orders.filter(o=>o.status==='pending').length %></div><div class="stat-lbl">Pending</div></div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon g"><i class="fa fa-users"></i></div>
+          <div><div class="stat-num"><%= users.length %></div><div class="stat-lbl">Users</div></div>
+        </div>
+      </div>
+
+      <!-- Recent orders -->
+      <div class="card">
+        <div class="card-head"><h3>Recent Orders</h3><button class="btn btn-gray btn-sm" onclick="showPanel('orders')">View All</button></div>
+        <table>
+          <thead><tr><th>Order ID</th><th>Customer</th><th>Amount</th><th>Status</th><th>Date</th></tr></thead>
+          <tbody>
+            <% orders.slice(0,8).forEach(o => { %>
+            <tr>
+              <td><strong>#<%= o._id.toString().slice(-8).toUpperCase() %></strong></td>
+              <td><%= o.user ? (o.user.firstName + ' ' + o.user.lastName) : 'Unknown' %></td>
+              <td>₹<%= o.totalAmount %></td>
+              <td><span class="badge <%= o.status %>"><%= o.status.replace('_',' ') %></span></td>
+              <td><%= new Date(o.createdAt).toLocaleDateString('en-IN',{day:'numeric',month:'short'}) %></td>
+            </tr>
+            <% }) %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ===== PRODUCTS ===== -->
+    <div id="panel-products" class="panel">
+      <div class="card">
+        <div class="card-head">
+          <h3><i class="fa fa-box"></i> Products (<%= products.length %>)</h3>
+          <div style="display:flex;gap:10px;align-items:center;">
+            <div class="search-wrap"><i class="fa fa-magnifying-glass"></i><input type="text" id="prodSearch" placeholder="Search..." oninput="filterProds()"/></div>
+            <button class="btn btn-green" onclick="openAddProduct()"><i class="fa fa-plus"></i> Add Product</button>
+          </div>
+        </div>
+        <table>
+          <thead><tr><th>Image</th><th>Title</th><th>Category</th><th>Price</th><th>Actions</th></tr></thead>
+          <tbody id="prodBody">
+            <% products.forEach(p => { %>
+            <tr class="prod-row" data-title="<%= p.title.toLowerCase() %>">
+              <td>
+                <% const imgSrc = (p.images && p.images.length) ? p.images[0] : (p.image || ''); %>
+                <% if (imgSrc) { %><img class="prod-img" src="<%= imgSrc %>" onerror="this.style.display='none'"/><% } else { %><span style="font-size:22px;">📦</span><% } %>
+              </td>
+              <td><div class="prod-title"><%= p.title %></div></td>
+              <td><span class="cat-chip"><%= p.category %></span></td>
+              <td><strong>₹<%= p.price %></strong></td>
+              <td>
+                <div style="display:flex;gap:6px;">
+                  <button class="btn btn-blue btn-sm" onclick='openEditProduct(<%= JSON.stringify(p) %>)'><i class="fa fa-pen"></i> Edit</button>
+                  <button class="btn btn-red btn-sm" onclick="deleteProduct('<%= p._id %>')"><i class="fa fa-trash"></i></button>
+                </div>
+              </td>
+            </tr>
+            <% }) %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ===== ORDERS ===== -->
+    <div id="panel-orders" class="panel">
+      <div class="card">
+        <div class="card-head">
+          <h3><i class="fa fa-receipt"></i> All Orders (<%= orders.length %>)</h3>
+          <select id="orderFilter" class="status-sel" onchange="filterOrders()" style="padding:7px 12px;">
+            <option value="">All Status</option>
+            <option value="pending">Pending</option>
+            <option value="confirmed">Confirmed</option>
+            <option value="dispatched">Dispatched</option>
+            <option value="out_for_delivery">Out for Delivery</option>
+            <option value="delivered">Delivered</option>
+            <option value="cancelled">Cancelled</option>
+          </select>
+        </div>
+        <table>
+          <thead><tr><th>Order ID</th><th>Customer</th><th>Items</th><th>Amount</th><th>Status</th><th>Date</th></tr></thead>
+          <tbody id="orderBody">
+            <% orders.forEach(o => { %>
+            <tr class="order-row" data-status="<%= o.status %>">
+              <td><strong>#<%= o._id.toString().slice(-8).toUpperCase() %></strong></td>
+              <td>
+                <div style="font-weight:600;"><%= o.user ? (o.user.firstName + ' ' + o.user.lastName) : 'Unknown' %></div>
+                <div style="font-size:11px;color:#94a3b8;"><%= o.user ? o.user.email : '' %></div>
+              </td>
+              <td>
+                <div style="display:flex;flex-direction:column;gap:2px;">
+                  <% o.items.forEach(item => { %><span style="font-size:12px;">• <%= item.name %> ×<%= item.quantity %></span><% }) %>
+                </div>
+              </td>
+              <td><strong style="color:#25a244;">₹<%= o.totalAmount %></strong></td>
+              <td>
+                <select class="status-sel" onchange="updateOrderStatus('<%= o._id %>', this.value, this)">
+                  <% ['pending','confirmed','dispatched','out_for_delivery','delivered','cancelled'].forEach(s => { %>
+                  <option value="<%= s %>" <%= o.status === s ? 'selected' : '' %>><%= s.replace('_',' ') %></option>
+                  <% }) %>
+                </select>
+              </td>
+              <td style="font-size:12px;color:#94a3b8;"><%= new Date(o.createdAt).toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'}) %></td>
+            </tr>
+            <% }) %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ===== USERS ===== -->
+    <div id="panel-users" class="panel">
+      <div class="card">
+        <div class="card-head"><h3><i class="fa fa-users"></i> All Users (<%= users.length %>)</h3></div>
+        <table>
+          <thead><tr><th>Name</th><th>Email</th><th>Phone</th><th>City</th><th>Role</th><th>Joined</th><th>Action</th></tr></thead>
+          <tbody>
+            <% users.forEach(u => { %>
+            <tr id="user-row-<%= u._id %>">
+              <td><strong><%= u.firstName %> <%= u.lastName %></strong></td>
+              <td><%= u.email %></td>
+              <td><%= u.phone || '—' %></td>
+              <td><%= (u.address && u.address.city) ? u.address.city : '—' %></td>
+              <td><span class="badge <%= u.role === 'admin' ? 'confirmed' : 'pending' %>" id="role-badge-<%= u._id %>"><%= u.role %></span></td>
+              <td style="font-size:12px;color:#94a3b8;"><%= new Date(u.createdAt).toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'}) %></td>
+              <td>
+                <button class="btn btn-sm <%= u.role === 'admin' ? 'btn-orange' : 'btn-blue' %>"
+                  id="role-btn-<%= u._id %>"
+                  onclick="toggleAdmin('<%= u._id %>', this)">
+                  <i class="fa <%= u.role === 'admin' ? 'fa-user-minus' : 'fa-user-shield' %>"></i>
+                  <%= u.role === 'admin' ? 'Remove Admin' : 'Make Admin' %>
+                </button>
+              </td>
+            </tr>
+            <% }) %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </div><!-- /content -->
+</div><!-- /main -->
+
+<!-- ===== ADD/EDIT PRODUCT MODAL ===== -->
+<div class="modal-bg" id="prodModal">
+  <div class="modal">
+    <h3 id="modalTitle">Add Product</h3>
+    <input type="hidden" id="prodId"/>
+
+    <div class="fg"><label>Title *</label><input type="text" id="prodTitle" placeholder="Product name"/></div>
+
+    <div class="fg-row">
+      <div class="fg"><label>Price (₹) *</label><input type="number" id="prodPrice" placeholder="0" min="0" step="0.01"/></div>
+      <div class="fg">
+        <label>Category *</label>
+        <%
+          /* Known built-in categories */
+          const knownAdminCats = [
+            { value:'Dairy & Dairy product', label:'🥛 Dairy & Dairy product' },
+            { value:'Instant Food',          label:'🍜 Instant Food' },
+            { value:'Drink & Juice',         label:'🥤 Drink & Juice' },
+            { value:'Ice Cream',             label:'🍦 Ice Cream' },
+            { value:'Chips & Namkeen',       label:'🍿 Chips & Namkeen' },
+            { value:'Sweets & Chocolate',    label:'🍫 Sweets & Chocolate' },
+            { value:'Bath & Body',           label:'🧴 Bath & Body' },
+            { value:'Household',             label:'🏠 Household' },
+            { value:'Electronic',            label:'💡 Electronic' },
+            { value:'SIM & Recharge',        label:'📡 SIM & Recharge' },
+            { value:'Stationery',            label:'✏️ Stationery' },
+            { value:'Mobile phone',          label:'📲 Mobile phone' },
+            { value:'Print Notebook',        label:'🖨️ Print Notebook' },
+            { value:'Cash Withdraw Adhar',   label:'💵 Cash Withdraw Adhar' },
+          ];
+          /* DB custom categories (admin-created) not already in known list */
+          const knownAdminNames = knownAdminCats.map(c => c.value);
+          const customAdminCats = (categories || []).filter(c => !knownAdminNames.includes(c.name));
+        %>
+        <select id="prodCat" onchange="toggleCustomCat(this)">
+          <option value="">-- Select Category --</option>
+          <!-- Built-in categories -->
+          <% knownAdminCats.forEach(function(c){ %>
+          <option value="<%= c.value %>"><%= c.label %></option>
+          <% }); %>
+          <!-- Custom DB categories (auto-added after admin creates them) -->
+          <% if (customAdminCats.length > 0) { %>
+          <optgroup label="── Custom Categories ──">
+            <% customAdminCats.forEach(function(c){ %>
+            <option value="<%= c.name %>"><%= c.icon || '📦' %> <%= c.name %></option>
+            <% }); %>
+          </optgroup>
+          <% } %>
+          <option value="__new__">➕ Add New Category...</option>
+        </select>
+        <!-- Custom category input - shows only when "Add New" selected -->
+        <div id="customCatBox" style="display:none;margin-top:10px;padding:14px;background:#f8fafc;border:1.5px solid #25a244;border-radius:10px;display:none;flex-direction:column;gap:10px;">
+          <div style="display:flex;flex-direction:column;gap:4px;">
+            <label style="font-size:12px;font-weight:600;color:#374151;">Category Name *</label>
+            <input type="text" id="customCat" placeholder="e.g. Organic Foods, Bakery Items..."
+              style="padding:9px 12px;border:1.5px solid #e2e8f0;border-radius:8px;font-size:13px;font-family:Inter,sans-serif;outline:none;"/>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:6px;">
+            <label style="font-size:12px;font-weight:600;color:#374151;">Pick Icon *</label>
+            <div id="emojiPicker" style="display:flex;flex-wrap:wrap;gap:6px;">
+              <% const emojiList = [
+                '🛒','🥦','🍎','🥛','🍖','🐟','🌾','🍿','🧃','🍞','🌶️','🧊','🧴','🧹','📦',
+                '🎂','🍫','🍜','🥤','🍦','💡','📲','✏️','📡','💵','🏠','🖨️','🏋️','🌿','🫙',
+                '🧇','🥚','🫐','🥬','🧅','🧄','🥑','🍋','🍑','🫒','🥩','🍗','🥓','🦐','🦑',
+                '🌽','🍠','🫛','🫚','🧂','🫕','☕','🍵','🥛','🍺','🧋'
+              ]; %>
+              <% emojiList.forEach(e => { %>
+              <button type="button" class="emoji-btn" onclick="pickEmoji(this, '<%= e %>')"
+                style="width:36px;height:36px;font-size:18px;background:#fff;border:2px solid #e2e8f0;border-radius:8px;cursor:pointer;transition:all .15s;"
+                title="<%= e %>"><%= e %></button>
+              <% }) %>
+            </div>
+            <div style="display:flex;align-items:center;gap:8px;margin-top:4px;">
+              <span style="font-size:12px;color:#94a3b8;">Selected:</span>
+              <span id="selectedEmoji" style="font-size:22px;">📦</span>
+              <input type="hidden" id="customCatIcon" value="📦"/>
+            </div>
+          </div>
+          <p style="font-size:11px;color:#94a3b8;"><i>ℹ️ New category will auto-appear in shop sidebar with this icon.</i></p>
+        </div>
+      </div>
+    </div>
+
+    <div class="fg"><label>Description</label><textarea id="prodDesc" placeholder="Short description..."></textarea></div>
+
+    <!-- Images: 3 separate upload slots -->
+    <div class="fg">
+      <label>Product Images <span style="font-weight:400;color:#94a3b8;">(1st = main, 2nd = hover in shop)</span></label>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;">
+
+        <% [['img1','Image 1 (Main) *','#25a244'],['img2','Image 2 (Hover)','#6366f1'],['img3','Image 3 (Extra)','#f59e0b']].forEach(function(slot){ %>
+        <!-- Slot rendered server side but labels only – actual input created below in JS -->
+        <% }) %>
+
+        <!-- Slot 1 -->
+        <div style="display:flex;flex-direction:column;align-items:center;gap:6px;">
+          <div id="prev1" style="width:100%;height:90px;border:2px solid #25a244;border-radius:10px;background:#f8fafc;display:flex;align-items:center;justify-content:center;overflow:hidden;position:relative;">
+            <span id="prev1-placeholder" style="font-size:28px;">📷</span>
+            <img id="prev1-img" src="" style="display:none;width:100%;height:100%;object-fit:contain;" onerror="this.style.display='none'"/>
+          </div>
+          <label style="cursor:pointer;font-size:11px;font-weight:700;color:#25a244;display:flex;align-items:center;gap:4px;">
+            <i class="fa fa-upload"></i> Image 1 (Main)
+            <input type="file" id="imgSlot1" name="imgSlot1" accept="image/*" onchange="slotPreview(this,1)" style="display:none;"/>
+          </label>
+        </div>
+
+        <!-- Slot 2 -->
+        <div style="display:flex;flex-direction:column;align-items:center;gap:6px;">
+          <div id="prev2" style="width:100%;height:90px;border:2px dashed #6366f1;border-radius:10px;background:#f8fafc;display:flex;align-items:center;justify-content:center;overflow:hidden;">
+            <span id="prev2-placeholder" style="font-size:28px;opacity:.4;">📷</span>
+            <img id="prev2-img" src="" style="display:none;width:100%;height:100%;object-fit:contain;" onerror="this.style.display='none'"/>
+          </div>
+          <label style="cursor:pointer;font-size:11px;font-weight:700;color:#6366f1;display:flex;align-items:center;gap:4px;">
+            <i class="fa fa-upload"></i> Image 2 (Hover)
+            <input type="file" id="imgSlot2" name="imgSlot2" accept="image/*" onchange="slotPreview(this,2)" style="display:none;"/>
+          </label>
+        </div>
+
+        <!-- Slot 3 -->
+        <div style="display:flex;flex-direction:column;align-items:center;gap:6px;">
+          <div id="prev3" style="width:100%;height:90px;border:2px dashed #f59e0b;border-radius:10px;background:#f8fafc;display:flex;align-items:center;justify-content:center;overflow:hidden;">
+            <span id="prev3-placeholder" style="font-size:28px;opacity:.4;">📷</span>
+            <img id="prev3-img" src="" style="display:none;width:100%;height:100%;object-fit:contain;" onerror="this.style.display='none'"/>
+          </div>
+          <label style="cursor:pointer;font-size:11px;font-weight:700;color:#f59e0b;display:flex;align-items:center;gap:4px;">
+            <i class="fa fa-upload"></i> Image 3 (Extra)
+            <input type="file" id="imgSlot3" name="imgSlot3" accept="image/*" onchange="slotPreview(this,3)" style="display:none;"/>
+          </label>
+        </div>
+
+      </div>
+      <!-- Existing images shown when editing -->
+      <div id="existingImgWrap" style="display:none;flex-direction:column;gap:6px;margin-top:8px;">
+        <div style="font-size:12px;font-weight:600;color:#374151;">Current saved images:</div>
+        <div id="existingImgGrid" style="display:flex;gap:8px;flex-wrap:wrap;"></div>
+        <div style="font-size:11px;color:#94a3b8;">Select new files above to replace them.</div>
+      </div>
+      <!-- URL fallback -->
+      <div style="font-size:12px;color:#94a3b8;text-align:center;margin-top:6px;">— OR paste URL for Image 1 —</div>
+      <input type="url" id="prodImage" placeholder="https://..." style="padding:8px 12px;border:1.5px solid #e2e8f0;border-radius:8px;font-size:13px;font-family:Inter,sans-serif;outline:none;margin-top:2px;" oninput="clearFilesIfUrl()"/>
+    </div>
+
+    <div class="modal-foot">
+      <button class="btn btn-gray" onclick="closeModal()">Cancel</button>
+      <button class="btn btn-green" onclick="saveProduct()"><i class="fa fa-floppy-disk"></i> Save Product</button>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div id="adminToast"></div>
+
+<script>
+/* ── Panel switcher ── */
+function showPanel(name) {
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.sb-link').forEach(b => b.classList.remove('active'));
+  document.getElementById('panel-' + name).classList.add('active');
+  event.currentTarget.classList.add('active');
+}
+
+/* ── Toast ── */
+let _tt;
+function toast(msg, type='') {
+  const t = document.getElementById('adminToast');
+  t.textContent = msg; t.className = 'show ' + type;
+  clearTimeout(_tt); _tt = setTimeout(() => t.className = '', 2800);
+}
+
+/* ── Product search ── */
+function filterProds() {
+  const q = document.getElementById('prodSearch').value.toLowerCase();
+  document.querySelectorAll('.prod-row').forEach(r => {
+    r.style.display = r.dataset.title.includes(q) ? '' : 'none';
+  });
+}
+
+/* ── Order filter ── */
+function filterOrders() {
+  const v = document.getElementById('orderFilter').value;
+  document.querySelectorAll('.order-row').forEach(r => {
+    r.style.display = (!v || r.dataset.status === v) ? '' : 'none';
+  });
+}
+
+/* ── Per-slot image preview ── */
+function slotPreview(input, slot) {
+  const ph  = document.getElementById('prev' + slot + '-placeholder');
+  const img = document.getElementById('prev' + slot + '-img');
+  if (input.files && input.files[0]) {
+    img.src = URL.createObjectURL(input.files[0]);
+    img.style.display = 'block';
+    ph.style.display  = 'none';
+    if (slot === 1) document.getElementById('prodImage').value = ''; // clear URL
+  }
+}
+function clearFilesIfUrl() {
+  [1,2,3].forEach(n => {
+    const inp = document.getElementById('imgSlot' + n);
+    if (inp) inp.value = '';
+    const img = document.getElementById('prev' + n + '-img');
+    if (img) { img.style.display = 'none'; img.src = ''; }
+    const ph = document.getElementById('prev' + n + '-placeholder');
+    if (ph) ph.style.display = 'block';
+  });
+}
+function resetSlots() {
+  [1,2,3].forEach(n => {
+    const inp = document.getElementById('imgSlot' + n);
+    if (inp) inp.value = '';
+    const img = document.getElementById('prev' + n + '-img');
+    if (img) { img.style.display = 'none'; img.src = ''; }
+    const ph = document.getElementById('prev' + n + '-placeholder');
+    if (ph) ph.style.display = 'block';
+  });
+  document.getElementById('existingImgWrap').style.display = 'none';
+  document.getElementById('existingImgGrid').innerHTML = '';
+}
+
+/* ── Toggle custom category box ── */
+function toggleCustomCat(sel) {
+  const box = document.getElementById('customCatBox');
+  if (sel.value === '__new__') {
+    box.style.display = 'flex';
+    document.getElementById('customCat').focus();
+  } else {
+    box.style.display = 'none';
+    document.getElementById('customCat').value = '';
+    document.getElementById('customCatIcon').value = '📦';
+    document.getElementById('selectedEmoji').textContent = '📦';
+    document.querySelectorAll('.emoji-btn').forEach(b => b.style.borderColor = '#e2e8f0');
+  }
+}
+
+/* ── Emoji picker ── */
+function pickEmoji(btn, emoji) {
+  document.querySelectorAll('.emoji-btn').forEach(b => b.style.borderColor = '#e2e8f0');
+  btn.style.borderColor = '#25a244';
+  btn.style.background  = '#dcfce7';
+  document.getElementById('customCatIcon').value = emoji;
+  document.getElementById('selectedEmoji').textContent = emoji;
+}
+
+/* ── Product Modal ── */
+function openAddProduct() {
+  document.getElementById('modalTitle').textContent = 'Add Product';
+  document.getElementById('prodId').value = '';
+  ['prodTitle','prodPrice','prodDesc','prodImage'].forEach(id => document.getElementById(id).value = '');
+  document.getElementById('prodCat').value = '';
+  resetSlots();
+  document.getElementById('customCat').value = '';
+  document.getElementById('customCatBox').style.display = 'none';
+  document.getElementById('customCatIcon').value = '📦';
+  document.getElementById('selectedEmoji').textContent = '📦';
+  document.querySelectorAll('.emoji-btn').forEach(b => { b.style.borderColor='#e2e8f0'; b.style.background='#fff'; });
+  document.getElementById('prodModal').classList.add('open');
+}
+function openEditProduct(p) {
+  document.getElementById('modalTitle').textContent = 'Edit Product';
+  document.getElementById('prodId').value    = p._id;
+  document.getElementById('prodTitle').value = p.title;
+  document.getElementById('prodPrice').value = p.price;
+  document.getElementById('prodDesc').value  = p.description || '';
+  document.getElementById('prodImage').value = p.image || '';
+  resetSlots();
+  document.getElementById('customCat').value = '';
+  document.getElementById('customCatBox').style.display = 'none';
+  document.getElementById('customCatIcon').value = '📦';
+  document.getElementById('selectedEmoji').textContent = '📦';
+  /* Set category dropdown — if not in list, use custom field */
+  const catSel = document.getElementById('prodCat');
+  catSel.value = p.category;
+  if (!catSel.value || catSel.value === '') {
+    catSel.value = '__new__';
+    document.getElementById('customCat').value = p.category;
+    document.getElementById('customCatBox').style.display = 'flex';
+  }
+  /* Show existing images in slot previews */
+  const allImgs = (p.images && p.images.length) ? p.images : (p.image ? [p.image] : []);
+  if (allImgs.length) {
+    document.getElementById('existingImgWrap').style.display = 'flex';
+    const existGrid = document.getElementById('existingImgGrid');
+    existGrid.innerHTML = '';
+    allImgs.forEach((src, i) => {
+      const img = document.createElement('img');
+      img.src = src; img.onerror = () => img.style.display='none';
+      img.style.cssText = 'width:70px;height:70px;object-fit:contain;border-radius:8px;border:2px solid ' + (i===0?'#25a244':'#e2e8f0') + ';background:#f8fafc;';
+      existGrid.appendChild(img);
+      /* Pre-fill slot preview from existing URL */
+      const pImg = document.getElementById('prev' + (i+1) + '-img');
+      const pPh  = document.getElementById('prev' + (i+1) + '-placeholder');
+      if (pImg && i < 3) { pImg.src = src; pImg.style.display = 'block'; if (pPh) pPh.style.display = 'none'; }
+    });
+  }
+  document.getElementById('prodModal').classList.add('open');
+}
+function closeModal() { document.getElementById('prodModal').classList.remove('open'); }
+
+/* ── Save product (FormData for file upload) ── */
+async function saveProduct() {
+  const id    = document.getElementById('prodId').value;
+  const title = document.getElementById('prodTitle').value.trim();
+  const price = document.getElementById('prodPrice').value;
+  const desc  = document.getElementById('prodDesc').value.trim();
+  const image = document.getElementById('prodImage').value.trim();
+  /* Collect individual slot files */
+  const slot1 = document.getElementById('imgSlot1').files[0];
+  const slot2 = document.getElementById('imgSlot2').files[0];
+  const slot3 = document.getElementById('imgSlot3').files[0];
+
+  /* Resolve category: dropdown or custom text */
+  let cat = document.getElementById('prodCat').value;
+  let catIsNew = false;
+  if (cat === '__new__') {
+    cat = document.getElementById('customCat').value.trim();
+    if (!cat) { toast('Please type the new category name', 'red'); return; }
+    catIsNew = true;
+  }
+
+  if (!title || !price || !cat) { toast('Title, Price & Category required', 'red'); return; }
+
+  /* If new category, save it to DB with icon first */
+  if (catIsNew) {
+    const icon = document.getElementById('customCatIcon').value || '📦';
+    await fetch('/admin/categories', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ name: cat, icon, label: cat })
+    });
+  }
+
+  const fd = new FormData();
+  fd.append('title',       title);
+  fd.append('price',       price);
+  fd.append('category',    cat);
+  fd.append('description', desc);
+  fd.append('image',       image); // URL fallback for slot 1
+  if (slot1) fd.append('imageFiles', slot1);
+  if (slot2) fd.append('imageFiles', slot2);
+  if (slot3) fd.append('imageFiles', slot3);
+
+  const url    = id ? `/admin/products/${id}` : '/admin/products';
+  const method = id ? 'PUT' : 'POST';
+
+  const res = await fetch(url, { method, body: fd });
+  const data = await res.json();
+  if (res.ok) { toast(id ? 'Product updated!' : 'Product added!', 'green'); closeModal(); setTimeout(() => location.reload(), 800); }
+  else         { toast(data.message || 'Error', 'red'); }
+}
+
+/* ── Delete product ── */
+async function deleteProduct(id) {
+  if (!confirm('Delete this product? This cannot be undone.')) return;
+  const res = await fetch(`/admin/products/${id}`, { method:'DELETE' });
+  if (res.ok) { toast('Product deleted!', 'green'); document.querySelector(`[onclick*="${id}"]`)?.closest('tr')?.remove(); }
+  else         { toast('Failed to delete', 'red'); }
+}
+
+/* ── Update order status ── */
+async function updateOrderStatus(orderId, newStatus, sel) {
+  const prev = sel.dataset.prev || sel.value;
+  const res  = await fetch(`/admin/orders/${orderId}/status`, {
+    method: 'PUT', headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({ status: newStatus })
+  });
+  if (res.ok) {
+    sel.closest('tr').dataset.status = newStatus;
+    sel.dataset.prev = newStatus;
+    toast('Status → ' + newStatus.replace('_',' '), 'green');
+  } else {
+    toast('Failed to update status', 'red');
+    sel.value = prev;
+  }
+}
+
+/* ── Toggle Admin role ── */
+async function toggleAdmin(userId, btn) {
+  const res = await fetch(`/admin/users/${userId}/toggle-admin`, { method:'PUT' });
+  const data = await res.json();
+  if (res.ok) {
+    const isAdmin = data.role === 'admin';
+    const badge = document.getElementById('role-badge-' + userId);
+    badge.textContent = data.role;
+    badge.className   = 'badge ' + (isAdmin ? 'confirmed' : 'pending');
+    btn.className     = 'btn btn-sm ' + (isAdmin ? 'btn-orange' : 'btn-blue');
+    btn.innerHTML     = `<i class="fa ${isAdmin ? 'fa-user-minus' : 'fa-user-shield'}"></i> ${isAdmin ? 'Remove Admin' : 'Make Admin'}`;
+    toast(isAdmin ? 'User promoted to Admin!' : 'Admin role removed.', isAdmin ? 'green' : '');
+  } else {
+    toast(data.message || 'Error', 'red');
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,29 @@
+{
+  "name": "ansumart",
+  "version": "1.0.0",
+  "description": "AnsuMart – Fresh Halal Grocery Delivery Landing Page",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js"
+  },
+  "dependencies": {
+    "bcrypt": "^6.0.0",
+    "bcryptjs": "^3.0.3",
+    "connect-mongo": "^6.0.0",
+    "cookie-parser": "^1.4.7",
+    "dotenv": "^17.4.2",
+    "ejs": "^3.1.9",
+    "express": "^4.22.1",
+    "express-session": "^1.19.0",
+    "mongoose": "^9.6.2",
+    "multer": "^2.1.1",
+    "passport": "^0.7.0",
+    "passport-facebook": "^3.0.0",
+    "passport-google-oauth20": "^2.0.0",
+    "razorpay": "^2.9.6"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1"
+  }
+}

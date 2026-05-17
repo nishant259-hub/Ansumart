@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>AnsuMart – Delivery in Minutes</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800;900&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <link rel="stylesheet" href="/css/shop.css"/>
+</head>
+<body>
+
+<header class="topbar" id="topbar">
+  <div class="topbar-inner">
+    <a href="/" class="logo">
+      <span class="logo-ico">🛒</span>
+      <span class="logo-text">Ansu<em>Mart</em></span>
+    </a>
+    <%
+      const _mins = typeof deliveryMins !== 'undefined' ? deliveryMins : 30;
+      const _loc  = typeof deliveryLocation !== 'undefined' ? deliveryLocation : 'Your Location';
+      let _delText;
+      if (_mins > 100) {
+        const hrs = (_mins / 60).toFixed(1);
+        _delText = hrs + ' hrs';
+      } else {
+        _delText = _mins + ' mins';
+      }
+    %>
+    <div class="delivery-badge">
+      <i class="fa-solid fa-bolt"></i>
+      <div>
+        <p class="del-title">Delivery in <strong><%= _delText %></strong></p>
+        <p class="del-sub"><i class="fa-solid fa-location-dot"></i> <%= _loc %></p>
+      </div>
+    </div>
+    <div class="search-wrap">
+      <i class="fa-solid fa-magnifying-glass s-icon"></i>
+      <input type="text" id="searchInput" placeholder='Search "milk", "chips", "sim card"…' autocomplete="off"/>
+    </div>
+    <div class="topbar-actions">
+      <a href="/profile#wishlist" class="tb-btn" id="wishlistBtn">
+        <i class="fa-regular fa-heart"></i>
+        <span>Wishlist</span>
+      </a>
+      <button class="tb-btn cart-btn" id="cartToggleBtn">
+        <i class="fa-solid fa-bag-shopping"></i>
+        <span>My Cart</span>
+        <span class="cart-count" id="cartCount">0</span>
+      </button>
+      <a href="/logout" class="login-btn" id="logoutBtn" style="display:none"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
+      <a href="/profile" class="login-btn" id="profileBtn">
+        <i class="fa-solid fa-circle-user"></i>
+        <span id="navUsername">Profile</span>
+      </a>
+    </div>
+    <button class="burger" id="burger"><span></span><span></span><span></span></button>
+  </div>
+</header>
+
+<div class="layout">
+
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-scroll">
+      <%
+        /* Known shop categories with icons */
+        const knownCats = [
+          { name:'Dairy & Dairy product', icon:'🥛', label:'Dairy' },
+          { name:'Instant Food',          icon:'🍜', label:'Instant Food' },
+          { name:'Drink & Juice',         icon:'🥤', label:'Drinks' },
+          { name:'Ice Cream',             icon:'🍦', label:'Ice Cream' },
+          { name:'Chips & Namkeen',       icon:'🍿', label:'Chips' },
+          { name:'Sweets & Chocolate',    icon:'🍫', label:'Sweets' },
+          { name:'Bath & Body',           icon:'🧴', label:'Bath & Body' },
+          { name:'Household',             icon:'🏠', label:'Household' },
+          { name:'Electronic',            icon:'💡', label:'Electronics' },
+          { name:'SIM & Recharge',        icon:'📡', label:'SIM' },
+          { name:'Stationery',            icon:'✏️',  label:'Stationery' },
+          { name:'Mobile phone',          icon:'📲', label:'Mobiles' },
+          { name:'Print Notebook',        icon:'🖨️', label:'Print & Copy' },
+          { name:'Cash Withdraw Adhar',   icon:'💵', label:'Cash Withdraw' },
+        ];
+        /* Get extra DB categories (admin-added) not already in known list */
+        const knownNames = knownCats.map(c => c.name);
+        const _dbCats = typeof dbCategories !== 'undefined' ? dbCategories : [];
+        const extraCats = _dbCats
+          .filter(c => c && !knownNames.includes(c.name))
+          .map(c => ({ name: c.name, icon: c.icon || '📦', label: c.label || c.name }));
+        /* Build final list: All + known + extras */
+        const sidebarCats = [
+          { name:'All', icon:'🏪', label:'All' },
+          ...knownCats,
+          ...extraCats
+        ];
+      %>
+      <% sidebarCats.forEach(function(c,i){ %>
+        <button class="sbi <%=i===0?'active':''%>" data-cat="<%=c.name%>">
+          <span class="sbi-ico"><%=c.icon%></span>
+          <span class="sbi-lbl"><%=c.label%></span>
+        </button>
+      <% }); %>
+    </div>
+  </aside>
+
+  <main class="product-area" id="prodArea">
+    <div class="area-header">
+      <div class="area-hd-left">
+        <h2 class="area-title" id="catTitle">All Products</h2>
+        <span class="count-badge" id="productCountBadge"></span>
+      </div>
+      <div class="sort-wrap">
+        <select class="sort-sel" id="sortSelect">
+          <option value="default">Sort: Default</option>
+          <option value="price-asc">Price: Low → High</option>
+          <option value="price-desc">Price: High → Low</option>
+          <option value="name-asc">Name: A → Z</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="product-grid" id="productGrid">
+      <% products.forEach(function(p){ %>
+        <div class="pcard"
+             data-cat="<%=p.category%>"
+             data-id="<%=p._id%>"
+             data-price="<%=p.price%>"
+             data-mrp="<%=p.mrp||p.price%>"
+             data-title="<%=p.title.toLowerCase()%>">
+
+          <div class="pcard-top">
+            <span class="pcard-time"><i class="fa-solid fa-bolt"></i> <%= _delText %></span>
+            <button class="wish-btn" data-id="<%=p._id%>"><i class="fa-regular fa-heart"></i></button>
+          </div>
+
+          <%if(p.mrp && p.mrp>p.price){%>
+            <span class="disc-tag"><%=Math.round((p.mrp-p.price)/p.mrp*100)%>% OFF</span>
+          <%}%>
+
+          <a href="/product/<%=p._id%>" class="pcard-link" tabindex="-1">
+            <div class="pcard-img-wrap">
+              <img class="pcard-img img-primary"
+                src="<%=p.images&&p.images.length?p.images[0]:(p.image||'')%>"
+                alt="<%=p.title%>" loading="lazy"
+                onerror="this.src='https://images.pexels.com/photos/4397921/pexels-photo-4397921.jpeg?auto=compress&w=300'"/>
+              <%if(p.images&&p.images.length>1){%>
+              <img class="pcard-img img-secondary"
+                src="<%=p.images[1]%>" alt="<%=p.title%> alt" loading="lazy"
+                onerror="this.src='https://images.pexels.com/photos/4397921/pexels-photo-4397921.jpeg?auto=compress&w=300'"/>
+              <%}%>
+            </div>
+            <div class="pcard-body">
+              <p class="pcard-name"><%=p.title%></p>
+              <p class="pcard-cat-tag"><%=p.category%></p>
+            </div>
+          </a>
+
+          <div class="pcard-foot">
+            <div class="pcard-price">
+              <span class="p-now" style="font-weight: 900; color: #1c1c1c;">₹<%=p.price%></span>
+              <%if(p.mrp&&p.mrp>p.price){%><span class="p-mrp" style="text-decoration:line-through; font-size:0.75rem; color:#888;">₹<%=p.mrp%></span><%}%>
+            </div>
+            <div class="qty-wrap" id="qw-<%=p._id%>">
+              <button class="add-btn"
+                data-id="<%=p._id%>" data-name="<%=p.title%>"
+                data-price="<%=p.price%>"
+                data-img="<%=p.images&&p.images.length?p.images[0]:(p.image||'')%>">
+                ADD
+              </button>
+              <div class="qty-ctrl hidden" id="qc-<%=p._id%>">
+                <button class="q-dec" data-id="<%=p._id%>">−</button>
+                <span class="q-num" id="qn-<%=p._id%>">1</span>
+                <button class="q-inc" data-id="<%=p._id%>">+</button>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      <%}); %>
+    </div>
+
+    <div class="empty-state hidden" id="emptyState">
+      <div class="empty-icon">🔍</div>
+      <h3>No products found</h3>
+      <p>Try a different category or search</p>
+    </div>
+  </main>
+
+  <aside class="cart-drawer" id="cartDrawer">
+    <div class="cart-head">
+      <div><h3><i class="fa-solid fa-bag-shopping"></i> My Cart</h3><p class="cart-subhead" id="cartSubhead">0 items</p></div>
+      <button class="cart-close" id="cartClose"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <div class="free-del-bar">
+      <div class="fdbar-track"><div class="fdbar-fill" id="fdbarFill" style="width:0%"></div></div>
+      <p id="fdbarMsg">Add ₹299 more for <strong>FREE delivery</strong></p>
+    </div>
+    <div class="cart-body" id="cartBody">
+      <div class="cart-empty" id="cartEmpty">
+        <span>🛒</span><p>Your cart is empty</p><small>Add items to start shopping</small>
+      </div>
+    </div>
+    <div class="cart-foot hidden" id="cartFoot">
+      <div class="bill-row"><span>Item total</span><span id="billItems">₹0</span></div>
+      <div class="bill-row"><span>Delivery fee</span><span id="billDel">₹30</span></div>
+      <div class="bill-row bill-total"><span>To Pay</span><span id="billTotal">₹30</span></div>
+      <button class="checkout-btn">Proceed to Checkout <i class="fa-solid fa-arrow-right"></i></button>
+    </div>
+  </aside>
+  <div class="cart-overlay hidden" id="cartOverlay"></div>
+
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>window.__PRODUCTS__ = <%- JSON.stringify(products) %>;</script>
+<script>
+  /* Set navbar username from server */
+  const __fname = "<%= firstName %>";
+  if (__fname) {
+    const el = document.getElementById('navUsername');
+    if (el) el.textContent = __fname;
+  }
+</script>
+<script src="/js/shop.js"></script>
+</body>
+</html>
