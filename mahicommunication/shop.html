@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Shop – Mahi Communication | Grocery, Dairy, Ice Cream & More</title>
+  <meta name="description" content="Mahi Communication shop – Browse grocery, milk, ice cream, instant food, chargers, earphones and stationery items available in Katihar." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- ── NAVBAR ── -->
+  <header class="navbar" id="navbar">
+    <div class="nav-inner">
+      <a href="index.html" class="logo">
+        <i class="fa-solid fa-store"></i>
+        <span>Mahi <em>Communication</em></span>
+      </a>
+      <nav class="nav-links" id="navLinks">
+        <a href="index.html"><i class="fa-solid fa-house"></i> Home</a>
+        <a href="shop.html" class="active"><i class="fa-solid fa-basket-shopping"></i> Shop</a>
+        <a href="contact.html"><i class="fa-solid fa-location-dot"></i> Contact</a>
+      </nav>
+      <button class="hamburger" id="hamburger" aria-label="Toggle menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+  <!-- ── PAGE HEADER ── -->
+  <section class="page-hero">
+    <h1><i class="fa-solid fa-basket-shopping"></i> Hamara <span class="highlight">Shop</span></h1>
+    <p>Grocery se lekar stationery tak – sab kuch yahan milega</p>
+  </section>
+
+  <!-- ── FILTER + SEARCH BAR ── -->
+  <section class="shop-controls">
+    <div class="shop-controls-inner">
+      <!-- Category Filter Tabs -->
+      <div class="filter-tabs" id="filterTabs">
+        <button class="filter-tab active" data-cat="all">Sab Kuch</button>
+        <button class="filter-tab" data-cat="grocery"><i class="fa-solid fa-wheat-awn"></i> Grocery</button>
+        <button class="filter-tab" data-cat="dairy"><i class="fa-solid fa-cow"></i> Milk & Dairy</button>
+        <button class="filter-tab" data-cat="icecream"><i class="fa-solid fa-ice-cream"></i> Ice Cream</button>
+        <button class="filter-tab" data-cat="instant"><i class="fa-solid fa-bowl-food"></i> Instant Food</button>
+        <button class="filter-tab" data-cat="electronics"><i class="fa-solid fa-plug"></i> Charger/Earphone</button>
+        <button class="filter-tab" data-cat="stationery"><i class="fa-solid fa-pen-nib"></i> Stationery</button>
+      </div>
+      <!-- Live Search Box -->
+      <div class="shop-search-wrap">
+        <i class="fa-solid fa-magnifying-glass"></i>
+        <input type="text" id="shopSearch" placeholder="Product dhundho…" autocomplete="off" />
+      </div>
+    </div>
+  </section>
+
+  <!-- ── PRODUCTS GRID ── -->
+  <section class="section shop-section">
+    <p class="result-count" id="resultCount">Sab products dikh rahe hain</p>
+    <div class="products-grid" id="productsGrid"></div>
+  </section>
+
+  <!-- ── ENQUIRE BANNER ── -->
+  <div class="enquire-strip">
+    <p><i class="fa-solid fa-circle-info"></i> Koi product listed nahi mila? WhatsApp par poochho – hum stock check karenge!</p>
+    <a href="https://wa.me/919876543210?text=Namaste!%20Mujhe%20ek%20product%20ke%20baare%20mein%20poochna%20tha." target="_blank" class="btn-whatsapp small">
+      <i class="fa-brands fa-whatsapp"></i> Abhi Poochho
+    </a>
+  </div>
+
+  <!-- ── FOOTER ── -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <a href="index.html" class="logo white-logo">
+          <i class="fa-solid fa-store"></i>
+          <span>Mahi <em>Communication</em></span>
+        </a>
+        <p>Katihar, Bihar ka trusted local shop – grocery, dairy, ice cream, electronics aur stationery ke liye.</p>
+        <div class="socials">
+          <a href="https://wa.me/919876543210" target="_blank" aria-label="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
+          <a href="#" aria-label="Facebook"><i class="fa-brands fa-facebook"></i></a>
+          <a href="#" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Pages</h4>
+        <a href="index.html">Home</a>
+        <a href="shop.html">Shop</a>
+        <a href="contact.html">Contact</a>
+      </div>
+      <div class="footer-col">
+        <h4>Categories</h4>
+        <a href="shop.html?cat=grocery">Grocery</a>
+        <a href="shop.html?cat=dairy">Milk & Dairy</a>
+        <a href="shop.html?cat=icecream">Ice Cream</a>
+        <a href="shop.html?cat=instant">Instant Food</a>
+        <a href="shop.html?cat=electronics">Charger & Earphone</a>
+        <a href="shop.html?cat=stationery">Stationery</a>
+      </div>
+      <div class="footer-col">
+        <h4>Hamare Baare Mein</h4>
+        <p><i class="fa-solid fa-location-dot"></i> Main Market, Katihar – 854105, Bihar</p>
+        <p><i class="fa-solid fa-phone"></i> +91 98765 43210</p>
+        <p><i class="fa-solid fa-clock"></i> Khula: 8:00 AM – 9:00 PM</p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2026 Mahi Communication, Katihar. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

@@ -34,17 +34,17 @@ const products = [
     ],
     image: 'https://images.pexels.com/photos/3735217/pexels-photo-3735217.jpeg?auto=compress&w=600',
   },
-  {
-    title: 'Amul Butter 500g',
-    price: 260,
-    category: 'Dairy & Dairy product',
-    description: 'Classic Amul salted butter made from fresh cream. Perfect on bread, roti or for cooking.',
-    images: [
-      'https://images.pexels.com/photos/531334/pexels-photo-531334.jpeg?auto=compress&w=600',
-      'https://images.pexels.com/photos/4873557/pexels-photo-4873557.jpeg?auto=compress&w=600',
-    ],
-    image: 'https://images.pexels.com/photos/531334/pexels-photo-531334.jpeg?auto=compress&w=600',
-  },
+  // {
+  //   title: 'Amul Butter 500g',
+  //   price: 260,
+  //   category: 'Dairy & Dairy product',
+  //   description: 'Classic Amul salted butter made from fresh cream. Perfect on bread, roti or for cooking.',
+  //   images: [
+  //     'https://images.pexels.com/photos/531334/pexels-photo-531334.jpeg?auto=compress&w=600',
+  //     'https://images.pexels.com/photos/4873557/pexels-photo-4873557.jpeg?auto=compress&w=600',
+  //   ],
+  //   image: 'https://images.pexels.com/photos/531334/pexels-photo-531334.jpeg?auto=compress&w=600',
+  // },
   {
     title: 'Amul Paneer 200g',
     price: 85,
