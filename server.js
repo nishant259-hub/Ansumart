@@ -13,34 +13,29 @@ const User = require('./models/User');
 const Order = require('./models/Order');
 const Category = require('./models/Category');
 
-// ── Multer (image upload) ──
+// ── Multer & Cloudinary (image upload) ──
 const multer = require('multer');
-const fs = require('fs');
+const cloudinary = require('cloudinary').v2;
+const { CloudinaryStorage } = require('multer-storage-cloudinary');
 
-// Vercel filesystem is read-only except /tmp
-const uploadDir = process.env.VERCEL
-  ? path.join('/tmp', 'uploads')
-  : path.join(__dirname, 'public', 'uploads');
-
-try {
-  if (!fs.existsSync(uploadDir)) {
-    fs.mkdirSync(uploadDir, { recursive: true });
-  }
-} catch (err) {
-  console.warn("⚠️ Warning: Could not create upload directory:", err.message);
-}
-
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => cb(null, uploadDir),
-  filename: (req, file, cb) => cb(null, Date.now() + '-' + file.originalname.replace(/\s/g, '_'))
+// Configure Cloudinary
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET
 });
+
+const storage = new CloudinaryStorage({
+  cloudinary: cloudinary,
+  params: {
+    folder: 'ansumart_uploads',
+    allowed_formats: ['jpg', 'png', 'jpeg', 'webp'],
+  },
+});
+
 const upload = multer({
   storage,
-  limits: { fileSize: 5 * 1024 * 1024 },
-  fileFilter: (req, file, cb) => {
-    if (file.mimetype.startsWith('image/')) cb(null, true);
-    else cb(new Error('Only image files allowed'));
-  }
+  limits: { fileSize: 5 * 1024 * 1024 }
 });
 
 // ── Middleware ──
@@ -700,9 +695,9 @@ app.post('/admin/categories', isAdmin, async (req, res) => {
 app.post('/admin/products', isAdmin, upload.array('imageFiles', 3), async (req, res) => {
   try {
     const { title, price, category, description, image } = req.body;
-    /* If files uploaded use their paths; else use URL from form */
+    /* If files uploaded use their cloudinary paths; else use URL from form */
     let imgPaths = (req.files && req.files.length)
-      ? req.files.map(f => '/uploads/' + f.filename)
+      ? req.files.map(f => f.path)
       : [];
     const primaryImg = imgPaths[0] || image || '';
     const product = new Product({
@@ -723,7 +718,7 @@ app.put('/admin/products/:id', isAdmin, upload.array('imageFiles', 3), async (re
   try {
     const { title, price, category, description, image } = req.body;
     let imgPaths = (req.files && req.files.length)
-      ? req.files.map(f => '/uploads/' + f.filename)
+      ? req.files.map(f => f.path)
       : [];
     const primaryImg = imgPaths[0] || image || '';
     const product = await Product.findByIdAndUpdate(
