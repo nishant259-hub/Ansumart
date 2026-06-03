@@ -49,10 +49,10 @@ app.use(express.json());
 
 // ── View Engine ──
 app.set('view engine', 'ejs');
-app.set('views', path.join(__dirname, 'views'));
+app.set('views', path.join(process.cwd(), 'views'));
 
 // ── Static Files ──
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(process.cwd(), 'public')));
 
 const session = require('express-session');
 const MongoStore = require('connect-mongo').default;
