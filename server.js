@@ -779,6 +779,10 @@ mongoose.connect(process.env.MONGO_URL)
   .catch(err => console.log("❌ DB Error:", err));
 
 // ── Start Server ──
-app.listen(PORT, () => {
-  console.log(`✅ AnsuMart running → Port: ${PORT}`);
-});
+if (require.main === module) {
+  app.listen(PORT, () => {
+    console.log(`✅ AnsuMart running → Port: ${PORT}`);
+  });
+}
+
+module.exports = app;
