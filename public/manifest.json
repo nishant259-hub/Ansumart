@@ -1,0 +1,22 @@
+{
+  "name": "AnsuMart",
+  "short_name": "AnsuMart",
+  "description": "Your trusted Halal grocery delivery partner.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#2d8a4e",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/image/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/image/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
