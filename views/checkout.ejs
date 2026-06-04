@@ -238,7 +238,31 @@
     }) %>;
     window.__USER_ID__ = "<%= user._id %>";
   </script>
-  <script src="/js/checkout.js"></script>
+  <!-- ═══════ BOTTOM NAV (MOBILE) ═══════ -->
+<nav class="bottom-nav">
+  <a href="/" class="bnav-item ">
+    <i class="fa-solid fa-house"></i>
+    <span>Home</span>
+  </a>
+  <a href="/store" class="bnav-item ">
+    <i class="fa-solid fa-store"></i>
+    <span>Store</span>
+  </a>
+  <a href="/shop" class="bnav-item ">
+    <i class="fa-solid fa-bag-shopping"></i>
+    <span>Shop</span>
+  </a>
+  <a href="/cart" class="bnav-item active">
+    <i class="fa-solid fa-cart-shopping"></i>
+    <span>Cart</span>
+  </a>
+  <a href="/profile" class="bnav-item ">
+    <i class="fa-solid fa-user"></i>
+    <span>Profile</span>
+  </a>
+</nav>
+
+<script src="/js/checkout.js"></script>
 </body>
 
 </html>
