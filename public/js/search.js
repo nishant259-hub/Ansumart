@@ -1,13 +1,3 @@
-searchInput.addEventListener('input', e => {
-  searchQuery = e.target.value.toLowerCase().trim();
-  // reset sidebar to All when searching
-  if (searchQuery) {
-    document.querySelectorAll('.sbi').forEach(b => b.classList.remove('active'));
-    document.querySelector('.sbi[data-cat="All"]').classList.add('active');
-    activeCategory = 'All';
-  }
-  applyFilters();
-});
 
 /* ══════════════════════════════════════════════════════════
    AnsuMart — search.js

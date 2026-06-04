@@ -696,15 +696,14 @@
   
 
   <!-- ═══════ TOAST ═══════ -->
-  <!-- ═══════ BOTTOM NAV (MOBILE) ═══════ -->
+  
+
+<% if(typeof user !== 'undefined' && user) { %>
+<!-- ═══════ BOTTOM NAV (MOBILE) ═══════ -->
 <nav class="bottom-nav">
-  <a href="/" class="bnav-item ">
+  <a href="/store" class="bnav-item active">
     <i class="fa-solid fa-house"></i>
     <span>Home</span>
-  </a>
-  <a href="/store" class="bnav-item active">
-    <i class="fa-solid fa-store"></i>
-    <span>Store</span>
   </a>
   <a href="/shop" class="bnav-item ">
     <i class="fa-solid fa-bag-shopping"></i>
@@ -719,6 +718,7 @@
     <span>Profile</span>
   </a>
 </nav>
+<% } %>
 
 <div class="toast-msg" id="toastMsg">
     <i class="fa-solid fa-circle-check"></i>

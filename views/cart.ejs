@@ -87,15 +87,14 @@
   </div>
 
   <!-- TOAST -->
-  <!-- ═══════ BOTTOM NAV (MOBILE) ═══════ -->
+  
+
+<% if(typeof user !== 'undefined' && user) { %>
+<!-- ═══════ BOTTOM NAV (MOBILE) ═══════ -->
 <nav class="bottom-nav">
-  <a href="/" class="bnav-item ">
+  <a href="/store" class="bnav-item ">
     <i class="fa-solid fa-house"></i>
     <span>Home</span>
-  </a>
-  <a href="/store" class="bnav-item ">
-    <i class="fa-solid fa-store"></i>
-    <span>Store</span>
   </a>
   <a href="/shop" class="bnav-item ">
     <i class="fa-solid fa-bag-shopping"></i>
@@ -110,6 +109,7 @@
     <span>Profile</span>
   </a>
 </nav>
+<% } %>
 
 <div class="toast" id="toast">
     <i class="fa-solid fa-circle-check toast-icon" id="toastIcon"></i>

@@ -3,15 +3,12 @@ const files = ['index.ejs', 'store.ejs', 'shop.ejs', 'cart.ejs', 'checkout.ejs',
 const basePath = 'c:/Users/ACER/OneDrive/Desktop/ansumart/views/';
 
 function getNavHtml(activeItem) {
-  return `<!-- ═══════ BOTTOM NAV (MOBILE) ═══════ -->
+  return `<% if(typeof user !== 'undefined' && user) { %>
+<!-- ═══════ BOTTOM NAV (MOBILE) ═══════ -->
 <nav class="bottom-nav">
-  <a href="/" class="bnav-item ${activeItem === 'home' ? 'active' : ''}">
+  <a href="/store" class="bnav-item ${activeItem === 'store' || activeItem === 'home' ? 'active' : ''}">
     <i class="fa-solid fa-house"></i>
     <span>Home</span>
-  </a>
-  <a href="/store" class="bnav-item ${activeItem === 'store' ? 'active' : ''}">
-    <i class="fa-solid fa-store"></i>
-    <span>Store</span>
   </a>
   <a href="/shop" class="bnav-item ${activeItem === 'shop' ? 'active' : ''}">
     <i class="fa-solid fa-bag-shopping"></i>
@@ -25,7 +22,8 @@ function getNavHtml(activeItem) {
     <i class="fa-solid fa-user"></i>
     <span>Profile</span>
   </a>
-</nav>`;
+</nav>
+<% } %>`;
 }
 
 files.forEach(file => {
@@ -34,6 +32,7 @@ files.forEach(file => {
   let content = fs.readFileSync(p, 'utf8');
   
   // Remove existing bottom-nav if any
+  content = content.replace(/<% if\(typeof user !== 'undefined' && user\) { %>\s*<!-- ═══════ BOTTOM NAV \(MOBILE\) ═══════ -->[\s\S]*?<nav class="bottom-nav">[\s\S]*?<\/nav>\s*<% } %>/g, '');
   content = content.replace(/<!-- ═══════ BOTTOM NAV \(MOBILE\) ═══════ -->[\s\S]*?<nav class="bottom-nav">[\s\S]*?<\/nav>/g, '');
   
   // Determine active item
