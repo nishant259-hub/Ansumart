@@ -361,6 +361,9 @@
           <div class="prod-info">
             <div class="prod-brand"><%= p.category %></div>
             <div class="prod-name"><%= p.title %></div>
+            <% if (p.quantity > 0 && p.quantity < 5) { %>
+              <div style="color: #ef4444; font-size: 11px; font-weight: 700; margin-top: 2px;">🔥 Only few left</div>
+            <% } %>
             <div class="price-row">
               <span class="price-now">₹<%= p.price %></span>
               <% if(p.mrp){ %><span class="price-old">₹<%= p.mrp %></span><% } %>

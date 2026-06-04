@@ -134,6 +134,10 @@
           <h1 class="prod-title">
             <%= product.title %>
           </h1>
+          
+          <% if (product.quantity > 0 && product.quantity < 5) { %>
+            <div style="color: #ef4444; font-weight: 700; font-size: 14px; margin-bottom: 8px; margin-top: 4px;">🔥 Only few left</div>
+          <% } %>
 
           <% if(product.description){ %>
             <p class="prod-desc">

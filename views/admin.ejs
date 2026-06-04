@@ -220,7 +220,7 @@
           </div>
         </div>
         <table>
-          <thead><tr><th>Image</th><th>Title</th><th>Category</th><th>Price</th><th>Actions</th></tr></thead>
+          <thead><tr><th>Image</th><th>Title</th><th>Category</th><th>Quantity</th><th>Price</th><th>Actions</th></tr></thead>
           <tbody id="prodBody">
             <% products.forEach(p => { %>
             <tr class="prod-row" data-title="<%= p.title.toLowerCase() %>">
@@ -230,6 +230,7 @@
               </td>
               <td><div class="prod-title"><%= p.title %></div></td>
               <td><span class="cat-chip"><%= p.category %></span></td>
+              <td><span style="font-weight:700; color:<%= (p.quantity && p.quantity < 5) ? 'red' : 'inherit' %>;"><%= p.quantity || 0 %></span></td>
               <td><strong>₹<%= p.price %></strong></td>
               <td>
                 <div style="display:flex;gap:6px;">
@@ -333,7 +334,9 @@
 
     <div class="fg-row">
       <div class="fg"><label>Price (₹) *</label><input type="number" id="prodPrice" placeholder="0" min="0" step="0.01"/></div>
-      <div class="fg">
+      <div class="fg"><label>Quantity *</label><input type="number" id="prodQuantity" placeholder="0" min="0"/></div>
+    </div>
+    <div class="fg">
         <label>Category *</label>
         <%
           /* Known built-in categories */
@@ -403,56 +406,20 @@
           </div>
           <p style="font-size:11px;color:#94a3b8;"><i>ℹ️ New category will auto-appear in shop sidebar with this icon.</i></p>
         </div>
-      </div>
     </div>
 
     <div class="fg"><label>Description</label><textarea id="prodDesc" placeholder="Short description..."></textarea></div>
 
-    <!-- Images: 3 separate upload slots -->
+    <!-- Images: Multiple file upload -->
     <div class="fg">
-      <label>Product Images <span style="font-weight:400;color:#94a3b8;">(1st = main, 2nd = hover in shop)</span></label>
-      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;">
-
-        <% [['img1','Image 1 (Main) *','#25a244'],['img2','Image 2 (Hover)','#6366f1'],['img3','Image 3 (Extra)','#f59e0b']].forEach(function(slot){ %>
-        <!-- Slot rendered server side but labels only – actual input created below in JS -->
-        <% }) %>
-
-        <!-- Slot 1 -->
-        <div style="display:flex;flex-direction:column;align-items:center;gap:6px;">
-          <div id="prev1" style="width:100%;height:90px;border:2px solid #25a244;border-radius:10px;background:#f8fafc;display:flex;align-items:center;justify-content:center;overflow:hidden;position:relative;">
-            <span id="prev1-placeholder" style="font-size:28px;">📷</span>
-            <img id="prev1-img" src="" style="display:none;width:100%;height:100%;object-fit:contain;" onerror="this.style.display='none'"/>
-          </div>
-          <label style="cursor:pointer;font-size:11px;font-weight:700;color:#25a244;display:flex;align-items:center;gap:4px;">
-            <i class="fa fa-upload"></i> Image 1 (Main)
-            <input type="file" id="imgSlot1" name="imgSlot1" accept="image/*" onchange="slotPreview(this,1)" style="display:none;"/>
+      <label>Product Images <span style="font-weight:400;color:#94a3b8;">(Select multiple files)</span></label>
+      <input type="file" id="imgFiles" name="imageFiles" accept="image/*" multiple onchange="previewFiles(this)" style="display:none;" />
+      <div style="display:flex; gap:10px; align-items:center; flex-wrap:wrap; margin-top:8px;" id="previewContainer">
+          <label for="imgFiles" style="width:90px;height:90px;border:2px dashed #6366f1;border-radius:10px;background:#f8fafc;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-direction:column;gap:4px;">
+              <i class="fa fa-plus" style="font-size:20px;color:#6366f1;"></i>
+              <span style="font-size:10px;color:#6366f1;font-weight:600;">Add Images</span>
           </label>
-        </div>
-
-        <!-- Slot 2 -->
-        <div style="display:flex;flex-direction:column;align-items:center;gap:6px;">
-          <div id="prev2" style="width:100%;height:90px;border:2px dashed #6366f1;border-radius:10px;background:#f8fafc;display:flex;align-items:center;justify-content:center;overflow:hidden;">
-            <span id="prev2-placeholder" style="font-size:28px;opacity:.4;">📷</span>
-            <img id="prev2-img" src="" style="display:none;width:100%;height:100%;object-fit:contain;" onerror="this.style.display='none'"/>
-          </div>
-          <label style="cursor:pointer;font-size:11px;font-weight:700;color:#6366f1;display:flex;align-items:center;gap:4px;">
-            <i class="fa fa-upload"></i> Image 2 (Hover)
-            <input type="file" id="imgSlot2" name="imgSlot2" accept="image/*" onchange="slotPreview(this,2)" style="display:none;"/>
-          </label>
-        </div>
-
-        <!-- Slot 3 -->
-        <div style="display:flex;flex-direction:column;align-items:center;gap:6px;">
-          <div id="prev3" style="width:100%;height:90px;border:2px dashed #f59e0b;border-radius:10px;background:#f8fafc;display:flex;align-items:center;justify-content:center;overflow:hidden;">
-            <span id="prev3-placeholder" style="font-size:28px;opacity:.4;">📷</span>
-            <img id="prev3-img" src="" style="display:none;width:100%;height:100%;object-fit:contain;" onerror="this.style.display='none'"/>
-          </div>
-          <label style="cursor:pointer;font-size:11px;font-weight:700;color:#f59e0b;display:flex;align-items:center;gap:4px;">
-            <i class="fa fa-upload"></i> Image 3 (Extra)
-            <input type="file" id="imgSlot3" name="imgSlot3" accept="image/*" onchange="slotPreview(this,3)" style="display:none;"/>
-          </label>
-        </div>
-
+          <div id="newImgPreviews" style="display:flex; gap:10px; flex-wrap:wrap;"></div>
       </div>
       <!-- Existing images shown when editing -->
       <div id="existingImgWrap" style="display:none;flex-direction:column;gap:6px;margin-top:8px;">
@@ -509,37 +476,32 @@ function filterOrders() {
 }
 
 /* ── Per-slot image preview ── */
-function slotPreview(input, slot) {
-  const ph  = document.getElementById('prev' + slot + '-placeholder');
-  const img = document.getElementById('prev' + slot + '-img');
-  if (input.files && input.files[0]) {
-    img.src = URL.createObjectURL(input.files[0]);
-    img.style.display = 'block';
-    ph.style.display  = 'none';
-    if (slot === 1) document.getElementById('prodImage').value = ''; // clear URL
+let currentExistingImages = [];
+function previewFiles(input) {
+  const container = document.getElementById('newImgPreviews');
+  container.innerHTML = '';
+  if (input.files && input.files.length > 0) {
+    document.getElementById('prodImage').value = ''; // clear URL
+    Array.from(input.files).forEach(file => {
+      const img = document.createElement('img');
+      img.src = URL.createObjectURL(file);
+      img.style.cssText = 'width:90px;height:90px;object-fit:contain;border-radius:10px;border:2px solid #25a244;background:#f8fafc;';
+      container.appendChild(img);
+    });
   }
 }
 function clearFilesIfUrl() {
-  [1,2,3].forEach(n => {
-    const inp = document.getElementById('imgSlot' + n);
-    if (inp) inp.value = '';
-    const img = document.getElementById('prev' + n + '-img');
-    if (img) { img.style.display = 'none'; img.src = ''; }
-    const ph = document.getElementById('prev' + n + '-placeholder');
-    if (ph) ph.style.display = 'block';
-  });
+  const inp = document.getElementById('imgFiles');
+  if (inp) inp.value = '';
+  document.getElementById('newImgPreviews').innerHTML = '';
 }
 function resetSlots() {
-  [1,2,3].forEach(n => {
-    const inp = document.getElementById('imgSlot' + n);
-    if (inp) inp.value = '';
-    const img = document.getElementById('prev' + n + '-img');
-    if (img) { img.style.display = 'none'; img.src = ''; }
-    const ph = document.getElementById('prev' + n + '-placeholder');
-    if (ph) ph.style.display = 'block';
-  });
+  const inp = document.getElementById('imgFiles');
+  if (inp) inp.value = '';
+  document.getElementById('newImgPreviews').innerHTML = '';
   document.getElementById('existingImgWrap').style.display = 'none';
   document.getElementById('existingImgGrid').innerHTML = '';
+  currentExistingImages = [];
 }
 
 /* ── Toggle custom category box ── */
@@ -570,7 +532,10 @@ function pickEmoji(btn, emoji) {
 function openAddProduct() {
   document.getElementById('modalTitle').textContent = 'Add Product';
   document.getElementById('prodId').value = '';
-  ['prodTitle','prodPrice','prodDesc','prodImage'].forEach(id => document.getElementById(id).value = '');
+  ['prodTitle','prodPrice','prodDesc','prodImage','prodQuantity'].forEach(id => {
+      const el = document.getElementById(id);
+      if(el) el.value = '';
+  });
   document.getElementById('prodCat').value = '';
   resetSlots();
   document.getElementById('customCat').value = '';
@@ -585,6 +550,7 @@ function openEditProduct(p) {
   document.getElementById('prodId').value    = p._id;
   document.getElementById('prodTitle').value = p.title;
   document.getElementById('prodPrice').value = p.price;
+  document.getElementById('prodQuantity').value = p.quantity || 0;
   document.getElementById('prodDesc').value  = p.description || '';
   document.getElementById('prodImage').value = p.image || '';
   resetSlots();
@@ -602,6 +568,7 @@ function openEditProduct(p) {
   }
   /* Show existing images in slot previews */
   const allImgs = (p.images && p.images.length) ? p.images : (p.image ? [p.image] : []);
+  currentExistingImages = allImgs;
   if (allImgs.length) {
     document.getElementById('existingImgWrap').style.display = 'flex';
     const existGrid = document.getElementById('existingImgGrid');
@@ -611,10 +578,6 @@ function openEditProduct(p) {
       img.src = src; img.onerror = () => img.style.display='none';
       img.style.cssText = 'width:70px;height:70px;object-fit:contain;border-radius:8px;border:2px solid ' + (i===0?'#25a244':'#e2e8f0') + ';background:#f8fafc;';
       existGrid.appendChild(img);
-      /* Pre-fill slot preview from existing URL */
-      const pImg = document.getElementById('prev' + (i+1) + '-img');
-      const pPh  = document.getElementById('prev' + (i+1) + '-placeholder');
-      if (pImg && i < 3) { pImg.src = src; pImg.style.display = 'block'; if (pPh) pPh.style.display = 'none'; }
     });
   }
   document.getElementById('prodModal').classList.add('open');
@@ -626,12 +589,11 @@ async function saveProduct() {
   const id    = document.getElementById('prodId').value;
   const title = document.getElementById('prodTitle').value.trim();
   const price = document.getElementById('prodPrice').value;
+  const qty   = document.getElementById('prodQuantity').value || 0;
   const desc  = document.getElementById('prodDesc').value.trim();
   const image = document.getElementById('prodImage').value.trim();
   /* Collect individual slot files */
-  const slot1 = document.getElementById('imgSlot1').files[0];
-  const slot2 = document.getElementById('imgSlot2').files[0];
-  const slot3 = document.getElementById('imgSlot3').files[0];
+  const imgFiles = document.getElementById('imgFiles').files;
 
   /* Resolve category: dropdown or custom text */
   let cat = document.getElementById('prodCat').value;
@@ -656,12 +618,17 @@ async function saveProduct() {
   const fd = new FormData();
   fd.append('title',       title);
   fd.append('price',       price);
+  fd.append('quantity',    qty);
   fd.append('category',    cat);
   fd.append('description', desc);
-  fd.append('image',       image); // URL fallback for slot 1
-  if (slot1) fd.append('imageFiles', slot1);
-  if (slot2) fd.append('imageFiles', slot2);
-  if (slot3) fd.append('imageFiles', slot3);
+  fd.append('image',       image); // URL fallback
+  if (imgFiles && imgFiles.length > 0) {
+      Array.from(imgFiles).forEach(file => {
+          fd.append('imageFiles', file);
+      });
+  } else if (currentExistingImages.length > 0) {
+      fd.append('existingImages', JSON.stringify(currentExistingImages));
+  }
 
   const url    = id ? `/admin/products/${id}` : '/admin/products';
   const method = id ? 'PUT' : 'POST';

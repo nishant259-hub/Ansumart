@@ -9,6 +9,7 @@ const productSchema = new mongoose.Schema({
   images:      { type: [String], default: [] },     // 2+ angle images
   category:    { type: String, required: true, trim: true },
   description: { type: String, default: '' },
+  quantity:    { type: Number, default: 0 },
 }, { timestamps: true });
 
 // Virtual: return images array if present, else wrap single image

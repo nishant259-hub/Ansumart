@@ -700,9 +700,9 @@ app.post('/admin/categories', isAdmin, async (req, res) => {
 });
 
 /* POST /admin/products – Add new product (with optional multi-file upload) */
-app.post('/admin/products', isAdmin, upload.array('imageFiles', 3), async (req, res) => {
+app.post('/admin/products', isAdmin, upload.array('imageFiles', 10), async (req, res) => {
   try {
-    const { title, price, category, description, image } = req.body;
+    const { title, price, category, description, image, quantity } = req.body;
     /* If files uploaded use their cloudinary paths; else use URL from form */
     let imgPaths = (req.files && req.files.length)
       ? req.files.map(f => f.path)
@@ -711,6 +711,7 @@ app.post('/admin/products', isAdmin, upload.array('imageFiles', 3), async (req, 
     const product = new Product({
       title, price: parseFloat(price), category,
       description: description || '',
+      quantity: quantity ? parseInt(quantity) : 0,
       image: primaryImg,
       images: imgPaths.length ? imgPaths : (primaryImg ? [primaryImg] : [])
     });
@@ -722,19 +723,31 @@ app.post('/admin/products', isAdmin, upload.array('imageFiles', 3), async (req, 
 });
 
 /* PUT /admin/products/:id – Edit product (with optional multi-file upload) */
-app.put('/admin/products/:id', isAdmin, upload.array('imageFiles', 3), async (req, res) => {
+app.put('/admin/products/:id', isAdmin, upload.array('imageFiles', 10), async (req, res) => {
   try {
-    const { title, price, category, description, image } = req.body;
+    const { title, price, category, description, image, quantity, existingImages } = req.body;
     let imgPaths = (req.files && req.files.length)
       ? req.files.map(f => f.path)
       : [];
-    const primaryImg = imgPaths[0] || image || '';
+      
+    let finalImages = [];
+    if (imgPaths.length > 0) {
+      finalImages = imgPaths;
+    } else if (existingImages) {
+      try { finalImages = JSON.parse(existingImages); } catch(e) { finalImages = []; }
+    } else if (image) {
+      finalImages = [image];
+    }
+    
+    const primaryImg = finalImages.length > 0 ? finalImages[0] : '';
+    
     const product = await Product.findByIdAndUpdate(
       req.params.id,
       {
         title, price: parseFloat(price), category, description,
+        quantity: quantity ? parseInt(quantity) : 0,
         image: primaryImg,
-        images: imgPaths.length ? imgPaths : (primaryImg ? [primaryImg] : [])
+        images: finalImages
       },
       { returnDocument: 'after' }
     );
