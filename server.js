@@ -451,8 +451,14 @@ app.post('/cart', (req, res) => {
 app.post('/cart/add', isLoggedIn, async (req, res) => {
   try {
     const { productId, quantity } = req.body;
+    const reqQty = quantity || 1;
+    const product = await Product.findById(productId);
+    if (!product || product.quantity < reqQty) {
+      return res.status(400).json({ message: 'Out of stock' });
+    }
+    
     await User.findByIdAndUpdate(req.session.user.id, {
-      $addToSet: { cart: { product: productId, quantity: quantity || 1 } }
+      $addToSet: { cart: { product: productId, quantity: reqQty } }
     });
     const user = await User.findById(req.session.user.id);
     res.json({ ok: true, cartCount: (user.cart || []).length });
@@ -609,6 +615,14 @@ app.post('/checkout/place-order', isLoggedIn, async (req, res) => {
   try {
     const { items, totalAmount, address, saveAddress } = req.body;
 
+    // Check stock for all items
+    for (let i of items) {
+      const prod = await Product.findById(i.id);
+      if (!prod || prod.quantity < i.quantity) {
+        return res.status(400).json({ message: `Sorry, ${i.name} is out of stock or does not have enough quantity.` });
+      }
+    }
+
     const order = new Order({
       user: req.session.user.id,
       items: items.map(i => ({
@@ -631,6 +645,11 @@ app.post('/checkout/place-order', isLoggedIn, async (req, res) => {
     });
 
     await order.save();
+    
+    // Decrement stock for ordered items
+    for (let i of items) {
+      await Product.findByIdAndUpdate(i.id, { $inc: { quantity: -i.quantity } });
+    }
 
     // Naya address save karna ho to
     if (saveAddress && address.line) {

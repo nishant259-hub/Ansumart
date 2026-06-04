@@ -136,7 +136,9 @@
           </h1>
           
           <% if (product.quantity > 0 && product.quantity < 5) { %>
-            <div style="color: #ef4444; font-weight: 700; font-size: 14px; margin-bottom: 8px; margin-top: 4px;">🔥 Only few left</div>
+            <div style="color: #ef4444; font-weight: 700; font-size: 14px; margin-bottom: 8px; margin-top: 4px;">🔥 Hurry! Few left</div>
+          <% } else if (product.quantity === 0) { %>
+            <div style="color: #ef4444; font-weight: 700; font-size: 14px; margin-bottom: 8px; margin-top: 4px;">Out of stock</div>
           <% } %>
 
           <% if(product.description){ %>
@@ -182,7 +184,9 @@
                 </div>
                 <button class="add-cart-btn" id="addCartBtn" data-id="<%= product._id %>"
                   data-name="<%= product.title %>" data-price="<%= product.price %>"
-                  data-img="<%= product.images && product.images.length ? product.images[0] : (product.image||'') %>">
+                  data-img="<%= product.images && product.images.length ? product.images[0] : (product.image||'') %>"
+                  <%= product.quantity === 0 ? 'disabled style="background: #e2e8f0; color: #94a3b8; cursor: not-allowed;"' : '' %>
+                  >
                   🛒 Add to Cart
                 </button>
                 <button class="wish-toggle" id="wishToggle" data-id="<%= product._id %>">

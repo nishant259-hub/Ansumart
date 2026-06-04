@@ -362,7 +362,9 @@
             <div class="prod-brand"><%= p.category %></div>
             <div class="prod-name"><%= p.title %></div>
             <% if (p.quantity > 0 && p.quantity < 5) { %>
-              <div style="color: #ef4444; font-size: 11px; font-weight: 700; margin-top: 2px;">🔥 Only few left</div>
+              <div style="color: #ef4444; font-size: 11px; font-weight: 700; margin-top: 2px;">🔥 Hurry! Few left</div>
+            <% } else if (p.quantity === 0) { %>
+              <div style="color: #ef4444; font-size: 11px; font-weight: 700; margin-top: 2px;">Out of stock</div>
             <% } %>
             <div class="price-row">
               <span class="price-now">₹<%= p.price %></span>
@@ -373,7 +375,8 @@
               data-name="<%= p.title %>"
               data-img="<%= imgUrl %>"
               data-price="<%= p.price %>"
-              data-old="<%= p.mrp || '' %>">
+              data-old="<%= p.mrp || '' %>"
+              <%= p.quantity === 0 ? 'disabled style="background: #e2e8f0; color: #94a3b8; cursor: not-allowed;"' : '' %>>
               <i class="fa-solid fa-plus"></i> Add to Cart
             </button>
           </div>

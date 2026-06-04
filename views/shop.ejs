@@ -161,7 +161,9 @@
               <p class="pcard-name"><%=p.title%></p>
               <p class="pcard-cat-tag"><%=p.category%></p>
               <% if (p.quantity > 0 && p.quantity < 5) { %>
-                <p style="color: #ef4444; font-size: 11px; font-weight: 700; margin-top: 4px;">🔥 Only few left</p>
+                <p style="color: #ef4444; font-size: 11px; font-weight: 700; margin-top: 4px;">🔥 Hurry! Few left</p>
+              <% } else if (p.quantity === 0) { %>
+                <p style="color: #ef4444; font-size: 11px; font-weight: 700; margin-top: 4px;">Out of stock</p>
               <% } %>
             </div>
           </a>
@@ -175,7 +177,8 @@
               <button class="add-btn"
                 data-id="<%=p._id%>" data-name="<%=p.title%>"
                 data-price="<%=p.price%>"
-                data-img="<%=p.images&&p.images.length?p.images[0]:(p.image||'')%>">
+                data-img="<%=p.images&&p.images.length?p.images[0]:(p.image||'')%>"
+                <%= p.quantity === 0 ? 'disabled style="background: #e2e8f0; color: #94a3b8; cursor: not-allowed;"' : '' %>>
                 ADD
               </button>
               <div class="qty-ctrl hidden" id="qc-<%=p._id%>">
