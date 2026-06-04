@@ -2,10 +2,11 @@
 // Seeds 100+ products across all categories with real image URLs
 
 const mongoose = require('mongoose');
+require('dotenv').config({ path: './.env' });
 const Product  = require('./models/Product');
 
 // ─── Change this to your MongoDB URI ───
-const MONGO_URI = process.env.MONGO_URI || 'mongodb://localhost:27017/quickmart';
+const MONGO_URI = process.env.MONGO_URL || 'mongodb://localhost:27017/quickmart';
 
 const products = [
 

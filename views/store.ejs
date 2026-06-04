@@ -203,11 +203,11 @@
         <div>
           <h2 class="sec-title">Shop by <span class="txt-red">Category</span></h2>
         </div>
-        <a href="#" class="see-all">See All <i class="fa-solid fa-arrow-right"></i></a>
+        <button class="see-all" id="btnSeeAllCats">See All <i class="fa-solid fa-arrow-down"></i></button>
       </div>
 
-      <!-- ROW 1 -->
-      <div class="cat-row">
+      <!-- ALL CATEGORIES IN ONE GRID -->
+      <div class="cat-grid" id="catGrid">
 
         <a href="/shop?cat=Instant+Food" class="cat-tile">
           <div class="cat-tile-img">
@@ -257,12 +257,7 @@
             <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f9f4.svg" alt="Bath & Body" />
           </div>
           <span>Bath &amp; Body</span>
-        </a>
 
-      </div>
-
-      <!-- ROW 2 -->
-      <div class="cat-row" style="margin-top:14px">
 
         <a href="/shop?cat=Household" class="cat-tile">
           <div class="cat-tile-img">
@@ -698,6 +693,26 @@
 
   </main>
 
+  <!-- ═══════ BOTTOM NAV (MOBILE) ═══════ -->
+  <nav class="bottom-nav">
+    <a href="/" class="bnav-item">
+      <i class="fa-solid fa-house"></i>
+      <span>Home</span>
+    </a>
+    <a href="/store" class="bnav-item active">
+      <i class="fa-solid fa-store"></i>
+      <span>Shop</span>
+    </a>
+    <a href="/cart" class="bnav-item">
+      <i class="fa-solid fa-cart-shopping"></i>
+      <span>Cart</span>
+    </a>
+    <a href="/profile" class="bnav-item">
+      <i class="fa-solid fa-user"></i>
+      <span>Profile</span>
+    </a>
+  </nav>
+
   <!-- ═══════ TOAST ═══════ -->
   <div class="toast-msg" id="toastMsg">
     <i class="fa-solid fa-circle-check"></i>
@@ -748,8 +763,23 @@
     </div>
   </footer>
 
-  <script src="/js/cart.js"></script>
   <script src="/js/store.js"></script>
+  <script src="/js/search.js"></script>
+  <script>
+    const btnSeeAll = document.getElementById('btnSeeAllCats');
+    const catGrid = document.getElementById('catGrid');
+    if(btnSeeAll && catGrid) {
+      btnSeeAll.addEventListener('click', (e) => {
+        e.preventDefault();
+        catGrid.classList.toggle('expanded');
+        if(catGrid.classList.contains('expanded')){
+          btnSeeAll.innerHTML = 'Show Less <i class="fa-solid fa-arrow-up"></i>';
+        } else {
+          btnSeeAll.innerHTML = 'See All <i class="fa-solid fa-arrow-down"></i>';
+        }
+      });
+    }
+  </script>
   <script src="/js/search.js"></script>
 
 </body>

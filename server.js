@@ -164,6 +164,14 @@ app.post('/login', async (req, res) => {
     }
 
     // Password compare
+    if (!user.password) {
+      return res.render('login', {
+        error: 'This account was created with Google. Please click "Continue with Google" to log in.',
+        success: null,
+        formData: { email }
+      });
+    }
+
     const isMatch = await bcrypt.compare(password, user.password);
 
     if (!isMatch) {
