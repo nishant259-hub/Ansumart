@@ -4,7 +4,7 @@ const path = require('path');
 const viewsDir = path.join(__dirname, 'views');
 const files = fs.readdirSync(viewsDir).filter(f => f.endsWith('.ejs'));
 
-const poweredHtml = `\n<div class="powered-by-mahi" style="font-size: 0.55rem; font-weight: 900; font-family: 'Playfair Display', serif; color: #2d8a4e; letter-spacing: 0.5px; text-transform: uppercase; margin-top: -2px; text-align: center; line-height: 1;">Powered by Mahi Communication</div>`;
+const poweredHtml = `\n<div class="powered-by-mahi" style="font-size: 0.55rem; font-weight: 900; font-family: 'Playfair Display', serif; color: #f5a623; letter-spacing: 0.5px; text-transform: uppercase; margin-top: -2px; text-align: center; line-height: 1;">Powered by Mahi Communication</div>`;
 
 files.forEach(file => {
     let p = path.join(viewsDir, file);
