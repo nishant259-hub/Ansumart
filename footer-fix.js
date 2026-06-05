@@ -1,6 +1,6 @@
 const fs = require("fs");
 const files = fs.readdirSync("./views").filter(f => f.endsWith(".ejs"));
-const newText = `<p>© 2026 AnsuMart. All rights reserved. Developed by <a href="https://www.linkedin.com/in/nishant-kumar-8a2a3236b" target="_blank" style="color: #f5a623; font-weight: bold; text-decoration: underline;">Nishant Kumar</a>.</p>`;
+const newText = `<p>ï¿½ 2026 Mahi-Communication. All rights reserved. Developed by <a href="https://www.linkedin.com/in/nishant-kumar-8a2a3236b" target="_blank" style="color: #f5a623; font-weight: bold; text-decoration: underline;">Nishant Kumar</a>.</p>`;
 
 files.forEach(f => {
   const p = "./views/" + f;

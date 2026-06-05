@@ -1,7 +1,7 @@
-/* ─── AnsuMart checkout.js ─── */
+/* ─── Mahi-Communication checkout.js ─── */
 
-const CART_KEY    = 'ansumart_cart';
-const COUPON_KEY  = 'ansumart_coupon';
+const CART_KEY    = 'mahi-communication_cart';
+const COUPON_KEY  = 'mahi-communication_coupon';
 const FREE_AT     = 500;
 const DEL_FEE     = 40;
 const TAX_RATE    = 0.05;
@@ -203,7 +203,7 @@ async function placeOrder() {
       /* Mark coupon as used for this user */
       if (savedCoupon && savedCoupon.code) {
         const uid = window.__USER_ID__ || 'guest';
-        const usedKey = 'ansumart_used_coupons_' + uid;
+        const usedKey = 'mahi-communication_used_coupons_' + uid;
         const used = JSON.parse(localStorage.getItem(usedKey) || '[]');
         if (!used.includes(savedCoupon.code)) used.push(savedCoupon.code);
         localStorage.setItem(usedKey, JSON.stringify(used));

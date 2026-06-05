@@ -1,5 +1,5 @@
 /* ─────────────────────────────────────────────
-   AnsuMart – main.js
+   Mahi-Communication – main.js
    Landing Page Interactions
 ───────────────────────────────────────────── */
 
@@ -59,7 +59,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   /* ── 4. Cart badge demo (localStorage) ── */
   const cartBadge = document.getElementById('cartBadge');
-  let cartCount = parseInt(localStorage.getItem('ansumart_cart') || '0');
+  let cartCount = parseInt(localStorage.getItem('mahi-communication_cart') || '0');
 
   function updateBadge() {
     if (cartBadge) {

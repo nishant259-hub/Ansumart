@@ -1,5 +1,5 @@
 /* ══════════════════════════════════════════
-   AnsuMart — product.js
+   Mahi-Communication — product.js
    Product detail page: gallery, qty, cart, wishlist
 ══════════════════════════════════════════ */
 
@@ -8,17 +8,17 @@ let cart = {};
 let wishlisted = new Set();
 
 try {
-  const saved = localStorage.getItem('ansumart_cart');
+  const saved = localStorage.getItem('mahi-communication_cart');
   if (saved) cart = JSON.parse(saved);
-  const savedWish = localStorage.getItem('ansumart_wishlist');
+  const savedWish = localStorage.getItem('mahi-communication_wishlist');
   if (savedWish) wishlisted = new Set(JSON.parse(savedWish));
 } catch (e) { }
 
 function saveCart() {
-  try { localStorage.setItem('ansumart_cart', JSON.stringify(cart)); } catch (e) { }
+  try { localStorage.setItem('mahi-communication_cart', JSON.stringify(cart)); } catch (e) { }
 }
 function saveWishlist() {
-  try { localStorage.setItem('ansumart_wishlist', JSON.stringify([...wishlisted])); } catch (e) { }
+  try { localStorage.setItem('mahi-communication_wishlist', JSON.stringify([...wishlisted])); } catch (e) { }
 }
 
 const FREE_DEL_THRESHOLD = 499;

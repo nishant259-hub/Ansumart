@@ -1,5 +1,5 @@
 /* ══════════════════════════════════════════
-   AnsuMart — shop.js  (updated)
+   Mahi-Communication — shop.js  (updated)
    Features: category sidebar, search, sort,
              add-to-cart, qty control, cart drawer,
              wishlist, free-delivery bar,
@@ -18,19 +18,19 @@ const DEL_FEE            = 30;
 
 // ─── LOAD CART FROM LOCALSTORAGE ─────────
 try {
-  const saved = localStorage.getItem('ansumart_cart');
+  const saved = localStorage.getItem('mahi-communication_cart');
   if (saved) cart = JSON.parse(saved);
-  const savedWish = localStorage.getItem('ansumart_wishlist');
+  const savedWish = localStorage.getItem('mahi-communication_wishlist');
   if (savedWish) {
     JSON.parse(savedWish).forEach(id => wishlisted.add(id));
   }
 } catch(e) {}
 
 function saveCart() {
-  try { localStorage.setItem('ansumart_cart', JSON.stringify(cart)); } catch(e) {}
+  try { localStorage.setItem('mahi-communication_cart', JSON.stringify(cart)); } catch(e) {}
 }
 function saveWishlist() {
-  try { localStorage.setItem('ansumart_wishlist', JSON.stringify([...wishlisted])); } catch(e) {}
+  try { localStorage.setItem('mahi-communication_wishlist', JSON.stringify([...wishlisted])); } catch(e) {}
 }
 
 // ─── DOM REFS ─────────────────────────────

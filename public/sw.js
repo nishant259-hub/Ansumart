@@ -1,4 +1,4 @@
-const CACHE_NAME = 'ansumart-pwa-v1';
+const CACHE_NAME = 'mahi-communication-pwa-v1';
 const ASSETS = [
   '/',
   '/css/style.css',

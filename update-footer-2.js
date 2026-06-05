@@ -8,7 +8,7 @@ const files = [
   './views/Product.ejs'
 ];
 
-const newText = '<p>© 2026 AnsuMart. All rights reserved. Developed by <a href="https://www.linkedin.com/in/nishant-kumar-8a2a3236b" target="_blank" style="color: var(--green, #2d8a4e); font-weight: bold; text-decoration: underline;">Nishant Kumar</a>.</p>';
+const newText = '<p>© 2026 Mahi-Communication. All rights reserved. Developed by <a href="https://www.linkedin.com/in/nishant-kumar-8a2a3236b" target="_blank" style="color: var(--green, #2d8a4e); font-weight: bold; text-decoration: underline;">Nishant Kumar</a>.</p>';
 
 files.forEach(f => {
   if (fs.existsSync(f)) {

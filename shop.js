@@ -1,5 +1,5 @@
 /* ══════════════════════════════════════════
-   AnsuMart — shop.js
+   Mahi-Communication — shop.js
    Features: category sidebar, search, sort,
              add-to-cart, qty control, cart drawer,
              wishlist, free-delivery bar

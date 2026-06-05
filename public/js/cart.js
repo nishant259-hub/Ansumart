@@ -1,6 +1,6 @@
-/* AnsuMart – cart.js  |  Full cart logic */
+/* Mahi-Communication – cart.js  |  Full cart logic */
 
-const CART_KEY = 'ansumart_cart';
+const CART_KEY = 'mahi-communication_cart';
 const FREE_DELIVERY_THRESHOLD = 500;
 const DELIVERY_FEE = 40;
 const TAX_RATE = 0.05;
@@ -316,7 +316,7 @@ function applyCoupon() {
 
   if (!COUPONS[code]) {
     appliedCoupon = null;
-    localStorage.removeItem('ansumart_coupon');
+    localStorage.removeItem('mahi-communication_coupon');
     msg.textContent = 'Invalid coupon code. Try FRESH10, HALAL20 or SAVE50.';
     msg.className = 'coupon-msg error';
     updateSummary(getCart());
@@ -325,7 +325,7 @@ function applyCoupon() {
 
   /* One-time use check per user */
   const userId = window.__USER_ID__ || 'guest';
-  const usedKey = 'ansumart_used_coupons_' + userId;
+  const usedKey = 'mahi-communication_used_coupons_' + userId;
   const usedCoupons = JSON.parse(localStorage.getItem(usedKey) || '[]');
   if (usedCoupons.includes(code)) {
     msg.textContent = `"${code}" already used. Each coupon can only be applied once per account.`;
@@ -334,7 +334,7 @@ function applyCoupon() {
   }
 
   appliedCoupon = code;
-  localStorage.setItem('ansumart_coupon', JSON.stringify({ code, ...COUPONS[code] }));
+  localStorage.setItem('mahi-communication_coupon', JSON.stringify({ code, ...COUPONS[code] }));
   msg.textContent = `✓ "${code}" applied — ${COUPONS[code].label}!`;
   msg.className = 'coupon-msg success';
   input.value = code;

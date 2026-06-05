@@ -7,7 +7,7 @@ const metaTags = `
   <meta name="theme-color" content="#2d8a4e" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-  <meta name="apple-mobile-web-app-title" content="AnsuMart" />
+  <meta name="apple-mobile-web-app-title" content="Mahi-Communication" />
   <link rel="apple-touch-icon" href="/image/icon-192.png" />
 `;
 

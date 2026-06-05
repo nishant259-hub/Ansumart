@@ -28,7 +28,7 @@ cloudinary.config({
 const storage = new CloudinaryStorage({
   cloudinary: cloudinary,
   params: {
-    folder: 'ansumart_uploads',
+    folder: 'mahi-communication_uploads',
     allowed_formats: ['jpg', 'png', 'jpeg', 'webp'],
   },
 });
@@ -55,7 +55,7 @@ const MongoStore = require('connect-mongo').default;
 app.set('trust proxy', 1);
 
 app.use(session({
-  secret: 'ansumartsecret',
+  secret: 'mahi-communicationsecret',
   resave: false,
   saveUninitialized: false,
 
@@ -828,7 +828,7 @@ mongoose.connect(process.env.MONGO_URL)
 // ── Start Server ──
 if (require.main === module) {
   app.listen(PORT, () => {
-    console.log(`✅ AnsuMart running → Port: ${PORT}`);
+    console.log(`✅ Mahi-Communication running → Port: ${PORT}`);
   });
 }
 

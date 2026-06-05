@@ -1,5 +1,5 @@
 /* ═══════════════════════════════════════
-   AnsuMart – store.js  |  Shop Page Logic
+   Mahi-Communication – store.js  |  Shop Page Logic
    Slider · Products · Cart · Search · Filters
 ═══════════════════════════════════════ */
 
@@ -106,12 +106,12 @@ function toast(msg){
 /* Wishlist management */
 let wishlisted = new Set();
 try {
-  const savedWish = localStorage.getItem('ansumart_wishlist');
+  const savedWish = localStorage.getItem('mahi-communication_wishlist');
   if (savedWish) JSON.parse(savedWish).forEach(id => wishlisted.add(id));
 } catch(e) {}
 
 function saveWishlist() {
-  try { localStorage.setItem('ansumart_wishlist', JSON.stringify([...wishlisted])); } catch(e) {}
+  try { localStorage.setItem('mahi-communication_wishlist', JSON.stringify([...wishlisted])); } catch(e) {}
 }
 
 /* ──────────────────────────────────────

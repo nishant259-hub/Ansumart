@@ -1,6 +1,6 @@
-# 🛒 AnsuMart – Full-Stack Grocery Delivery Platform
+# 🛒 Mahi-Communication – Full-Stack Grocery Delivery Platform
 
-AnsuMart is a robust, dynamic e-commerce web application built for ordering fresh groceries. It includes a user dashboard, interactive shopping catalog, dynamic delivery estimation based on address coordinates, and a powerful Admin dashboard.
+Mahi-Communication is a robust, dynamic e-commerce web application built for ordering fresh groceries. It includes a user dashboard, interactive shopping catalog, dynamic delivery estimation based on address coordinates, and a powerful Admin dashboard.
 
 ## 🚀 Key Features
 
@@ -39,4 +39,4 @@ Follow these steps to run the project on your local machine:
 1. **Clone the repository:**
    ```bash
    git clone https://github.com/nishant259-hub/ansumart.git
-   cd ansumart
+   cd mahi-communication

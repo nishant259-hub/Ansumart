@@ -1,6 +1,6 @@
 
 /* ══════════════════════════════════════════════════════════
-   AnsuMart — search.js
+   Mahi-Communication — search.js
    Shared: URL ?cat= → sidebar auto-select + filter trigger
    Works on both /shop (sidebar .sbi) and /store (cat-bar .cbar-btn)
 ══════════════════════════════════════════════════════════ */

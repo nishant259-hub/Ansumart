@@ -1,6 +1,6 @@
 const fs = require('fs');
 const files = ['index.ejs', 'store.ejs', 'shop.ejs', 'cart.ejs', 'checkout.ejs', 'dashboard.ejs', 'Product.ejs'];
-const basePath = 'c:/Users/ACER/OneDrive/Desktop/ansumart/views/';
+const basePath = 'c:/Users/ACER/OneDrive/Desktop/mahi-communication/views/';
 
 function getNavHtml(activeItem) {
   return `<% if(typeof user !== 'undefined' && user) { %>
