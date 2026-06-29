@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
   <title>Admin Panel – Mahi-Communication</title>
   <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@700;800;900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet"/>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
@@ -81,6 +81,9 @@
     .prod-title{font-weight:600;}
     .cat-chip{background:#e0f2fe;color:#0369a1;font-size:11px;font-weight:600;padding:2px 8px;border-radius:10px;}
 
+    .table-responsive{width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch;}
+    .table-responsive table{min-width:650px;}
+
     /* ── BUTTONS ── */
     .btn{display:inline-flex;align-items:center;gap:6px;padding:8px 14px;border-radius:8px;font-size:13px;font-weight:600;border:none;cursor:pointer;transition:all .17s;font-family:'Inter',sans-serif;}
     .btn-green{background:var(--green);color:#fff;}  .btn-green:hover{background:#1a8c38;}
@@ -134,6 +137,10 @@
     @media(max-width:768px){
       .sidebar{width:64px;} .sb-link span,.sb-brand span,.sb-brand em,.sb-logout a span{display:none;}
       .main{margin-left:64px;} .stats-row{grid-template-columns:1fr 1fr;}
+      .content{padding:14px;}
+      .fg-row{grid-template-columns:1fr;}
+      .card-head{flex-direction:column;align-items:flex-start;}
+      .modal{padding:20px;}
     }
   </style>
 
@@ -192,20 +199,22 @@
       <!-- Recent orders -->
       <div class="card">
         <div class="card-head"><h3>Recent Orders</h3><button class="btn btn-gray btn-sm" onclick="showPanel('orders')">View All</button></div>
-        <table>
-          <thead><tr><th>Order ID</th><th>Customer</th><th>Amount</th><th>Status</th><th>Date</th></tr></thead>
-          <tbody>
-            <% orders.slice(0,8).forEach(o => { %>
-            <tr>
-              <td><strong>#<%= o._id.toString().slice(-8).toUpperCase() %></strong></td>
-              <td><%= o.user ? (o.user.firstName + ' ' + o.user.lastName) : 'Unknown' %></td>
-              <td>₹<%= o.totalAmount %></td>
-              <td><span class="badge <%= o.status %>"><%= o.status.replace('_',' ') %></span></td>
-              <td><%= new Date(o.createdAt).toLocaleDateString('en-IN',{day:'numeric',month:'short'}) %></td>
-            </tr>
-            <% }) %>
-          </tbody>
-        </table>
+        <div class="table-responsive">
+          <table>
+            <thead><tr><th>Order ID</th><th>Customer</th><th>Amount</th><th>Status</th><th>Date</th></tr></thead>
+            <tbody>
+              <% orders.slice(0,8).forEach(o => { %>
+              <tr>
+                <td><strong>#<%= o._id.toString().slice(-8).toUpperCase() %></strong></td>
+                <td><%= o.user ? (o.user.firstName + ' ' + o.user.lastName) : 'Unknown' %></td>
+                <td>₹<%= o.totalAmount %></td>
+                <td><span class="badge <%= o.status %>"><%= o.status.replace('_',' ') %></span></td>
+                <td><%= new Date(o.createdAt).toLocaleDateString('en-IN',{day:'numeric',month:'short'}) %></td>
+              </tr>
+              <% }) %>
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
 
@@ -219,29 +228,31 @@
             <button class="btn btn-green" onclick="openAddProduct()"><i class="fa fa-plus"></i> Add Product</button>
           </div>
         </div>
-        <table>
-          <thead><tr><th>Image</th><th>Title</th><th>Category</th><th>Quantity</th><th>Price</th><th>Actions</th></tr></thead>
-          <tbody id="prodBody">
-            <% products.forEach(p => { %>
-            <tr class="prod-row" data-title="<%= p.title.toLowerCase() %>">
-              <td>
-                <% const imgSrc = (p.images && p.images.length) ? p.images[0] : (p.image || ''); %>
-                <% if (imgSrc) { %><img class="prod-img" src="<%= imgSrc %>" onerror="this.style.display='none'"/><% } else { %><span style="font-size:22px;">📦</span><% } %>
-              </td>
-              <td><div class="prod-title"><%= p.title %></div></td>
-              <td><span class="cat-chip"><%= p.category %></span></td>
-              <td><span style="font-weight:700; color:<%= (p.quantity && p.quantity < 5) ? 'red' : 'inherit' %>;"><%= p.quantity || 0 %></span></td>
-              <td><strong>₹<%= p.price %></strong></td>
-              <td>
-                <div style="display:flex;gap:6px;">
-                  <button class="btn btn-blue btn-sm" onclick='openEditProduct(<%= JSON.stringify(p) %>)'><i class="fa fa-pen"></i> Edit</button>
-                  <button class="btn btn-red btn-sm" onclick="deleteProduct('<%= p._id %>')"><i class="fa fa-trash"></i></button>
-                </div>
-              </td>
-            </tr>
-            <% }) %>
-          </tbody>
-        </table>
+        <div class="table-responsive">
+          <table>
+            <thead><tr><th>Image</th><th>Title</th><th>Category</th><th>Quantity</th><th>Price</th><th>Actions</th></tr></thead>
+            <tbody id="prodBody">
+              <% products.forEach(p => { %>
+              <tr class="prod-row" data-title="<%= p.title.toLowerCase() %>">
+                <td>
+                  <% const imgSrc = (p.images && p.images.length) ? p.images[0] : (p.image || ''); %>
+                  <% if (imgSrc) { %><img class="prod-img" src="<%= imgSrc %>" onerror="this.style.display='none'"/><% } else { %><span style="font-size:22px;">📦</span><% } %>
+                </td>
+                <td><div class="prod-title"><%= p.title %></div></td>
+                <td><span class="cat-chip"><%= p.category %></span></td>
+                <td><span style="font-weight:700; color:<%= (p.quantity && p.quantity < 5) ? 'red' : 'inherit' %>;"><%= p.quantity || 0 %></span></td>
+                <td><strong>₹<%= p.price %></strong></td>
+                <td>
+                  <div style="display:flex;gap:6px;">
+                    <button class="btn btn-blue btn-sm" onclick='openEditProduct(<%= JSON.stringify(p) %>)'><i class="fa fa-pen"></i> Edit</button>
+                    <button class="btn btn-red btn-sm" onclick="deleteProduct('<%= p._id %>')"><i class="fa fa-trash"></i></button>
+                  </div>
+                </td>
+              </tr>
+              <% }) %>
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
 
@@ -260,34 +271,36 @@
             <option value="cancelled">Cancelled</option>
           </select>
         </div>
-        <table>
-          <thead><tr><th>Order ID</th><th>Customer</th><th>Items</th><th>Amount</th><th>Status</th><th>Date</th></tr></thead>
-          <tbody id="orderBody">
-            <% orders.forEach(o => { %>
-            <tr class="order-row" data-status="<%= o.status %>">
-              <td><strong>#<%= o._id.toString().slice(-8).toUpperCase() %></strong></td>
-              <td>
-                <div style="font-weight:600;"><%= o.user ? (o.user.firstName + ' ' + o.user.lastName) : 'Unknown' %></div>
-                <div style="font-size:11px;color:#94a3b8;"><%= o.user ? o.user.email : '' %></div>
-              </td>
-              <td>
-                <div style="display:flex;flex-direction:column;gap:2px;">
-                  <% o.items.forEach(item => { %><span style="font-size:12px;">• <%= item.name %> ×<%= item.quantity %></span><% }) %>
-                </div>
-              </td>
-              <td><strong style="color:#25a244;">₹<%= o.totalAmount %></strong></td>
-              <td>
-                <select class="status-sel" onchange="updateOrderStatus('<%= o._id %>', this.value, this)">
-                  <% ['pending','confirmed','dispatched','out_for_delivery','delivered','cancelled'].forEach(s => { %>
-                  <option value="<%= s %>" <%= o.status === s ? 'selected' : '' %>><%= s.replace('_',' ') %></option>
-                  <% }) %>
-                </select>
-              </td>
-              <td style="font-size:12px;color:#94a3b8;"><%= new Date(o.createdAt).toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'}) %></td>
-            </tr>
-            <% }) %>
-          </tbody>
-        </table>
+        <div class="table-responsive">
+          <table>
+            <thead><tr><th>Order ID</th><th>Customer</th><th>Items</th><th>Amount</th><th>Status</th><th>Date</th></tr></thead>
+            <tbody id="orderBody">
+              <% orders.forEach(o => { %>
+              <tr class="order-row" data-status="<%= o.status %>">
+                <td><strong>#<%= o._id.toString().slice(-8).toUpperCase() %></strong></td>
+                <td>
+                  <div style="font-weight:600;"><%= o.user ? (o.user.firstName + ' ' + o.user.lastName) : 'Unknown' %></div>
+                  <div style="font-size:11px;color:#94a3b8;"><%= o.user ? o.user.email : '' %></div>
+                </td>
+                <td>
+                  <div style="display:flex;flex-direction:column;gap:2px;">
+                    <% o.items.forEach(item => { %><span style="font-size:12px;">• <%= item.name %> ×<%= item.quantity %></span><% }) %>
+                  </div>
+                </td>
+                <td><strong style="color:#25a244;">₹<%= o.totalAmount %></strong></td>
+                <td>
+                  <select class="status-sel" onchange="updateOrderStatus('<%= o._id %>', this.value, this)">
+                    <% ['pending','confirmed','dispatched','out_for_delivery','delivered','cancelled'].forEach(s => { %>
+                    <option value="<%= s %>" <%= o.status === s ? 'selected' : '' %>><%= s.replace('_',' ') %></option>
+                    <% }) %>
+                  </select>
+                </td>
+                <td style="font-size:12px;color:#94a3b8;"><%= new Date(o.createdAt).toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'}) %></td>
+              </tr>
+              <% }) %>
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
 
@@ -295,29 +308,31 @@
     <div id="panel-users" class="panel">
       <div class="card">
         <div class="card-head"><h3><i class="fa fa-users"></i> All Users (<%= users.length %>)</h3></div>
-        <table>
-          <thead><tr><th>Name</th><th>Email</th><th>Phone</th><th>City</th><th>Role</th><th>Joined</th><th>Action</th></tr></thead>
-          <tbody>
-            <% users.forEach(u => { %>
-            <tr id="user-row-<%= u._id %>">
-              <td><strong><%= u.firstName %> <%= u.lastName %></strong></td>
-              <td><%= u.email %></td>
-              <td><%= u.phone || '—' %></td>
-              <td><%= (u.address && u.address.city) ? u.address.city : '—' %></td>
-              <td><span class="badge <%= u.role === 'admin' ? 'confirmed' : 'pending' %>" id="role-badge-<%= u._id %>"><%= u.role %></span></td>
-              <td style="font-size:12px;color:#94a3b8;"><%= new Date(u.createdAt).toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'}) %></td>
-              <td>
-                <button class="btn btn-sm <%= u.role === 'admin' ? 'btn-orange' : 'btn-blue' %>"
-                  id="role-btn-<%= u._id %>"
-                  onclick="toggleAdmin('<%= u._id %>', this)">
-                  <i class="fa <%= u.role === 'admin' ? 'fa-user-minus' : 'fa-user-shield' %>"></i>
-                  <%= u.role === 'admin' ? 'Remove Admin' : 'Make Admin' %>
-                </button>
-              </td>
-            </tr>
-            <% }) %>
-          </tbody>
-        </table>
+        <div class="table-responsive">
+          <table>
+            <thead><tr><th>Name</th><th>Email</th><th>Phone</th><th>City</th><th>Role</th><th>Joined</th><th>Action</th></tr></thead>
+            <tbody>
+              <% users.forEach(u => { %>
+              <tr id="user-row-<%= u._id %>">
+                <td><strong><%= u.firstName %> <%= u.lastName %></strong></td>
+                <td><%= u.email %></td>
+                <td><%= u.phone || '—' %></td>
+                <td><%= (u.address && u.address.city) ? u.address.city : '—' %></td>
+                <td><span class="badge <%= u.role === 'admin' ? 'confirmed' : 'pending' %>" id="role-badge-<%= u._id %>"><%= u.role %></span></td>
+                <td style="font-size:12px;color:#94a3b8;"><%= new Date(u.createdAt).toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'}) %></td>
+                <td>
+                  <button class="btn btn-sm <%= u.role === 'admin' ? 'btn-orange' : 'btn-blue' %>"
+                    id="role-btn-<%= u._id %>"
+                    onclick="toggleAdmin('<%= u._id %>', this)">
+                    <i class="fa <%= u.role === 'admin' ? 'fa-user-minus' : 'fa-user-shield' %>"></i>
+                    <%= u.role === 'admin' ? 'Remove Admin' : 'Make Admin' %>
+                  </button>
+                </td>
+              </tr>
+              <% }) %>
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
 

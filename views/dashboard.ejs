@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
   <title>Dashboard – Mahi-Communication</title>
   <link rel="stylesheet" href="/css/dashboard.css"/>
   <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@700;800;900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet"/>
@@ -41,7 +41,12 @@
         <h1>Hey, <%= user.firstName %> 👋</h1>
         <p>Welcome back to Mahi-Communication</p>
       </div>
-      <a href="/store" class="btn-green"><i class="fa fa-bag-shopping"></i> Shop Now</a>
+      <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+        <a href="/store" class="btn-green"><i class="fa fa-bag-shopping"></i> Shop Now</a>
+        <% if (user.role === 'admin') { %>
+          <a href="/admin" class="btn-green" style="background: #1e293b; border-color: #1e293b;"><i class="fa fa-shield"></i> Admin Panel</a>
+        <% } %>
+      </div>
     </div>
 
     <div class="cards-row">

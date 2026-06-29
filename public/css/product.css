@@ -170,7 +170,18 @@ a:hover { text-decoration: none; }
   margin-bottom: 48px;
 }
 @media(max-width: 768px) {
-  .product-detail { grid-template-columns: 1fr; padding: 20px; gap: 24px; }
+  .product-detail { 
+    grid-template-columns: 1fr; 
+    padding: 20px; 
+    gap: 20px; 
+    border-radius: 0; 
+    box-shadow: none;
+    border-top: 1px solid var(--border); 
+    border-bottom: 1px solid var(--border);
+    margin: 4px -20px 32px -20px; 
+  }
+  .breadcrumb { padding: 0 4px; margin-bottom: 12px; }
+  .suggestions-section { padding: 0 4px; }
 }
 
 /* ── GALLERY ── */
@@ -718,10 +729,15 @@ a:hover { text-decoration: none; }
 
 /* ── MOBILE ── */
 @media (max-width: 480px) {
-  .topbar-inner { gap: 10px; padding: 0 12px; }
+  .topbar-inner { gap: 8px; padding: 0 12px; }
+  .logo { font-size: 1.2rem; }
+  .logo-text { display: none; } /* Hide "AnsuMart" text on very small screens, show only icon/em if needed, but wait logo is "🛒 AnsuMart" */
   .delivery-badge { display: none; }
-  .page-wrap { padding: 12px 12px 48px; }
-  .product-detail { padding: 16px; gap: 20px; }
+  .tb-btn { padding: 6px 10px; font-size: 0.75rem; }
+  .login-btn { padding: 6px 10px; font-size: 0.75rem; }
+  
+  .page-wrap { padding: 12px 20px 48px; }
+  .product-detail { padding: 16px 20px; gap: 16px; margin-left: -20px; margin-right: -20px; }
   .prod-title { font-size: 1.3rem; }
   .prod-price { font-size: 1.6rem; }
   .add-cart-btn { min-width: 120px; font-size: 0.9rem; }
